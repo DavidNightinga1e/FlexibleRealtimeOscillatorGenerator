@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Runtime
 {
@@ -10,7 +11,7 @@ namespace Runtime
 		
 		private double _phase;
 		
-		public Oscillator(Waveform waveform, double frequency, int sampleRate, int octaveShift)
+		public Oscillator(Waveform waveform, double frequency, int sampleRate, int octaveShift = 0)
 		{
 			_waveform = waveform;
 			
@@ -25,7 +26,7 @@ namespace Runtime
 				? 1 << exponent 
 				: 1.0f / (1 << -exponent);
 		}
-
+		
 		public double Evaluate()
 		{
 			_phase += _phaseIncrement;

@@ -14,24 +14,28 @@ namespace Runtime
 		public double Phase;
 		
 		public bool IsReleasing { get; private set; }
-		
+		public bool IsFinished => IsReleasing && Envelope.Value <= 0.000001;
+
 		private readonly List<Oscillator> _oscillators;
 		private readonly int _sampleRate;
+		private readonly LowPassFilter _lowPassFilter;
 
-		public Voice(List<Oscillator> oscillators, EnvelopeParameters envelopeParameters, int sampleRate, double frequency)
+		public Voice(List<Oscillator> oscillators, LowPassFilter filter, EnvelopeParameters envelopeParameters, int sampleRate, double frequency)
 		{
 			Frequency = frequency;
 			_sampleRate = sampleRate;
 			_oscillators = oscillators;
 			Envelope = new Envelope(sampleRate, envelopeParameters);
+			_lowPassFilter = filter;
 			Attack();
 		}
 
 		public double UpdateSample()
 		{
-			Envelope.Update();
 			double oscillatorValue = _oscillators.Sum(t => t.Evaluate()) / _oscillators.Count;
-			return 0.7f * Amplitude * oscillatorValue * Envelope.Value;
+			double filtered = _lowPassFilter.Process(oscillatorValue);
+			Envelope.Update();
+			return 0.7f * Amplitude * filtered * Envelope.Value;
 		}
 
 		public void Attack()
