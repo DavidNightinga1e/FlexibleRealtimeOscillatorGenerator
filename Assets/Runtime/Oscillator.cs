@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Runtime
 {
@@ -7,17 +6,34 @@ namespace Runtime
 	{
 		private readonly Waveform _waveform;
 		
-		private readonly double _phaseIncrement;
-		
+		private double _phaseIncrement;
 		private double _phase;
+		private double _activeFrequency;
+
+		private readonly Oscillator _vibratoLfo;
+		private readonly float _vibratoAmount;
+		private readonly double _frequency;
+		private readonly int _octaveShift;
+		private readonly int _sampleRate;
 		
-		public Oscillator(Waveform waveform, double frequency, int sampleRate, int octaveShift = 0)
+		public Oscillator(Waveform waveform, double frequency, int sampleRate, Oscillator vibratoLfo, float vibratoAmount, int octaveShift = 0)
 		{
 			_waveform = waveform;
 			
-			double adjustedFrequency = frequency * GetPowerOfTwoMultiplier(octaveShift);
+			_sampleRate = sampleRate;
+			_octaveShift = octaveShift;
+			_activeFrequency = _frequency = frequency;
 			
-			_phaseIncrement = 2 * Math.PI * adjustedFrequency / sampleRate;
+			_vibratoLfo = vibratoLfo;
+			_vibratoAmount = vibratoAmount;
+			
+			UpdatePhaseIncrement();
+		}
+
+		private void UpdatePhaseIncrement()
+		{
+			double adjustedFrequency = _activeFrequency * GetPowerOfTwoMultiplier(_octaveShift);
+			_phaseIncrement = 2 * Math.PI * adjustedFrequency / _sampleRate;
 		}
 		
 		public static float GetPowerOfTwoMultiplier(int exponent)
@@ -34,7 +50,16 @@ namespace Runtime
 			while (_phase > 2 * Math.PI)
 				_phase -= 2 * Math.PI;
 
-			return _waveform switch
+			if (_vibratoLfo != null)
+			{
+				double vibratoLfoValue = _vibratoLfo.Evaluate();
+				var pitchShift = vibratoLfoValue * _vibratoAmount;
+				var frequencyMultiplier = Math.Pow(2, pitchShift / 12);
+				_activeFrequency = _frequency * frequencyMultiplier;
+				UpdatePhaseIncrement();
+			}
+
+			double output = _waveform switch
 			{
 				Waveform.Sine => GetSine(),
 				Waveform.Square => GetSquare(),
@@ -42,6 +67,8 @@ namespace Runtime
 				Waveform.Sawtooth => GetSawtooth(),
 				_ => throw new ArgumentOutOfRangeException()
 			};
+			
+			return output;
 		}
 
 		private double GetSawtooth()

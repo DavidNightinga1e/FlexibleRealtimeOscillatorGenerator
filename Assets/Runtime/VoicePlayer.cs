@@ -8,6 +8,7 @@ namespace Runtime
 {
 	public class VoicePlayer : MonoBehaviour
 	{
+		[SerializeField] private DelayModule _delayModule;
 		[SerializeField] private Image dbMeter;
 		[SerializeField] private LineRenderer _lineRenderer;
 
@@ -21,8 +22,8 @@ namespace Runtime
 
 		private const int OutputBufferSize = 10000;
 		
-		private double[] _outputBuffer;
-		private int _outputBufferPointer;
+		private double[] _waveformBuffer;
+		private int _waveformBufferPointer;
 		private NativeArray<Vector3> _positions;
 		private VUMeter _meter = new();
 
@@ -45,12 +46,12 @@ namespace Runtime
 		private void Start()
 		{
 			_sampleRate = AudioSettings.outputSampleRate;
-			_delayEffect = new DelayEffect(_sampleRate, 0.2, 0, 0);
+			_delayEffect = new DelayEffect(_sampleRate, _delayModule._delayTime, _delayModule._feedback, _delayModule._mix);
 			
 			_positions = new NativeArray<Vector3>(_sampleRate, Allocator.Domain);
 			_lineRenderer.positionCount = OutputBufferSize;
 			_lineRenderer.SetPositions(_positions);
-			_outputBuffer = new double[OutputBufferSize];
+			_waveformBuffer = new double[OutputBufferSize];
 		}
 
 		private void SetDbMeter(float v)
@@ -65,7 +66,7 @@ namespace Runtime
 			{
 				for (int i = 0; i < OutputBufferSize; i++)
 				{
-					double d = _outputBuffer[i];
+					double d = _waveformBuffer[i];
 					_positions[i] = new Vector3(14 * ((float)i / OutputBufferSize) - 7, (float)d, 0);
 				}
 			}
@@ -86,18 +87,13 @@ namespace Runtime
 					for (int dataIndex = 0; dataIndex < dataLength; dataIndex++)
 					{
 						var signal = _delayEffect.Process(0);
+						
 						for (int channelIndex = 0; channelIndex < channels; channelIndex++)
 						{
 							data[dataIndex * channels + channelIndex] += (float)signal;
 						}
 						
-						_meter.ProcessSample(signal);
-
-						lock (_outputLock)
-						{
-							_outputBuffer[_outputBufferPointer] = signal;
-							_outputBufferPointer = (_outputBufferPointer + 1) % _outputBuffer.Length;
-						}
+						OnSampleComplete(signal);
 					}
 
 					return;
@@ -105,40 +101,56 @@ namespace Runtime
 
 				for (int dataIndex = 0; dataIndex < dataLength; dataIndex++)
 				{
-					double signal = 0;
-					double totalEnvelope = 0;
-
-					foreach (Voice voice in _voices)
-					{
-						double sample = voice.UpdateSample();
-						signal += sample;
-						totalEnvelope += voice.Envelope.Value;
-					}
-
-					if (totalEnvelope > 1)
-						signal /= totalEnvelope;
-
-					if (double.IsNaN(signal))
-					{
-						Debug.LogError($"Output was NaN, voices count: {_voices.Count}");
-					}
+					double signal = MixVoices();
 
 					signal = _delayEffect.Process(signal);
-					
-					_meter.ProcessSample(signal);
 
 					for (int channelIndex = 0; channelIndex < channels; channelIndex++)
 					{
 						data[dataIndex * channels + channelIndex] += (float)signal;
 					}
 					
-					lock (_outputLock)
-					{
-						_outputBuffer[_outputBufferPointer] = signal;
-						_outputBufferPointer = (_outputBufferPointer + 1) % _outputBuffer.Length;
-					}
+					OnSampleComplete(signal);
 				}
 			}
+		}
+
+		private void OnSampleComplete(double sample)
+		{
+			_meter.ProcessSample(sample);
+			AddSampleToWaveformBuffer(sample);
+		}
+
+		private void AddSampleToWaveformBuffer(double signal)
+		{
+			lock (_outputLock)
+			{
+				_waveformBuffer[_waveformBufferPointer] = signal;
+				_waveformBufferPointer = (_waveformBufferPointer + 1) % _waveformBuffer.Length;
+			}
+		}
+
+		private double MixVoices()
+		{
+			double signal = 0;
+			double totalEnvelope = 0;
+
+			foreach (Voice voice in _voices)
+			{
+				double sample = voice.UpdateSample();
+				signal += sample;
+				totalEnvelope += voice.AmpEnvelope.Value;
+			}
+
+			if (totalEnvelope > 1)
+				signal /= totalEnvelope;
+
+			if (double.IsNaN(signal))
+			{
+				Debug.LogError($"Output was NaN, voices count: {_voices.Count}");
+			}
+
+			return signal;
 		}
 	}
 }

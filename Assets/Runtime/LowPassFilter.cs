@@ -54,6 +54,11 @@ namespace Runtime
 			_a2 /= _a0;
 		}
 
+		public void OnAttack()
+		{
+			//_x1 = _x2 = _y1 = _y2 = 0;
+		}
+
 		public double Process(double sample)
 		{
 			var output =

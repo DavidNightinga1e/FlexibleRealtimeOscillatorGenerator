@@ -7,6 +7,10 @@ namespace Runtime
 {
 	public class Synthesizer : MonoBehaviour
 	{
+		[SerializeField] private EnvelopeModule env1;
+		[SerializeField] private EnvelopeModule env2;
+		[SerializeField] private LfoModule lfo1;
+		[SerializeField] private LfoModule lfo2;
 		[SerializeField] private LowPassFilterModule _lowPassFilterModule;
 		[SerializeField] private List<OscillatorModule> _oscillatorModules;
 		[SerializeField] private EnvelopeModule _envelopeModule;
@@ -16,15 +20,12 @@ namespace Runtime
 		private readonly Dictionary<Note, Voice> _activeVoices = new();
 
 		private int _sampleRate;
-		private LowPassFilter _lowPassFilter;
 
 		private void Start()
 		{
 			_sampleRate = AudioSettings.outputSampleRate;
 			_keyboard.OnNotePressed += OnNotePressed;
 			_keyboard.OnNoteReleased += OnNoteReleased;
-
-			_lowPassFilter = new LowPassFilter(_lowPassFilterModule.cutoff, _lowPassFilterModule.q, _sampleRate);
 		}
 
 		private void OnNoteReleased(Note note)
@@ -48,9 +49,37 @@ namespace Runtime
 			double frequency = NoteToFrequency.GetFrequency(note);
 			List<Oscillator> oscillators = _oscillatorModules
 				.Where(t => t.master)
-				.Select(t => new Oscillator(t.waveform, frequency, _sampleRate, t.octaveShift))
+				.Select(t =>
+				{
+					LfoModule vibratoLfo = t.vibratoLfo switch
+					{
+						LfoSelection.Off => null,
+						LfoSelection.Lfo1 => lfo1,
+						LfoSelection.Lfo2 => lfo2,
+						_ => throw new ArgumentOutOfRangeException()
+					};
+					Oscillator lfo = null;
+					if (vibratoLfo != null)
+						lfo = new Oscillator(vibratoLfo.wave, vibratoLfo.frequency, _sampleRate, null, 0, 0);
+					return new Oscillator(t.waveform, frequency, _sampleRate, lfo, t.vibratoAmount, t.octaveShift);
+				})
 				.ToList();
-			var voice = new Voice(oscillators, _lowPassFilter, _envelopeModule.Parameters, _sampleRate, frequency);
+			
+			EnvelopeParameters filterEnvelopeParameters = _lowPassFilterModule.EnvelopeSelection switch
+			{
+				EnvelopeSelection.Off => null,
+				EnvelopeSelection.Env1 => env1.Parameters,
+				EnvelopeSelection.Env2 => env2.Parameters,
+				_ => throw new ArgumentOutOfRangeException()
+			};
+			Oscillator lfo = _lowPassFilterModule.LfoSelection switch
+			{
+				LfoSelection.Off => null,
+				LfoSelection.Lfo1 => new Oscillator(lfo1.wave, lfo1.frequency, _sampleRate, null, 0),
+				LfoSelection.Lfo2 => new Oscillator(lfo2.wave, lfo2.frequency, _sampleRate, null, 0),
+				_ => throw new ArgumentOutOfRangeException()
+			};
+			var voice = new Voice(oscillators, _lowPassFilterModule, _envelopeModule.Parameters, filterEnvelopeParameters, lfo, _sampleRate);
 			_activeVoices.Add(note, voice);
 			_voicePlayer.AddVoice(voice);
 		}
@@ -65,8 +94,6 @@ namespace Runtime
 				_activeVoices.Remove(pair.Key);
 				_voicePlayer.RemoveVoice(pair.Value);
 			}
-			
-			_lowPassFilter.SetParameters(_lowPassFilterModule.cutoff, _lowPassFilterModule.q, _sampleRate);
 		}
 
 		private void OnDestroy()
