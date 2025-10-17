@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Runtime
+namespace Runtime.Test
 {
 	[Serializable]
 	public class EnvelopeParameters

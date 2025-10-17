@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Runtime
+namespace Runtime.Common
 {
 	public class Keyboard : MonoBehaviour
 	{

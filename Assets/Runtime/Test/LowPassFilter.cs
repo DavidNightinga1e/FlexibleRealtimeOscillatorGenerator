@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Runtime
+namespace Runtime.Test
 {
 	public class LowPassFilter
 	{

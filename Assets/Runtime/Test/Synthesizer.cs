@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Runtime.Common;
 using UnityEngine;
 
-namespace Runtime
+namespace Runtime.Test
 {
 	public class Synthesizer : MonoBehaviour
 	{

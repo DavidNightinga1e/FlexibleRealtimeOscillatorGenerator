@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Runtime
+namespace Runtime.Test
 {
 	public class LowPassFilterModule : MonoBehaviour
 	{

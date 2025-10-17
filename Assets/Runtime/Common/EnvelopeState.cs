@@ -1,4 +1,4 @@
-﻿namespace Runtime
+﻿namespace Runtime.Common
 {
 	public enum EnvelopeState
 	{

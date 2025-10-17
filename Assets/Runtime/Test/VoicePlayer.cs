@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Runtime.Common;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Runtime
+namespace Runtime.Test
 {
 	public class VoicePlayer : MonoBehaviour
 	{

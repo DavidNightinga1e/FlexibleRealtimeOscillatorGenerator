@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine;
 using UnityEngine.UI;
 
-namespace Runtime
+namespace Runtime.Synth
 {
 
 [RequireComponent(typeof(CanvasRenderer))]

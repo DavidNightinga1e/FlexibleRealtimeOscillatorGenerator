@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Runtime
+namespace Runtime.Test
 {
 	public class EnvelopeModule : MonoBehaviour
 	{

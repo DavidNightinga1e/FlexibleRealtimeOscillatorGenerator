@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Runtime.Common;
+using UnityEngine;
 
-namespace Runtime
+namespace Runtime.Test
 {
 	public class OscillatorModule : MonoBehaviour
 	{

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Runtime.Test;
 using UnityEngine;
 
-namespace Runtime
+namespace Runtime.Synth
 {
 	public class EnvelopeDrawer : MonoBehaviour
 	{

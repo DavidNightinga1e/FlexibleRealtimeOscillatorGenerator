@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Runtime
+namespace Runtime.Common
 {
 	public static class NoteToFrequency
 	{

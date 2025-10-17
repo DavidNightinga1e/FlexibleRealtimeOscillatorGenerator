@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Runtime
+namespace Runtime.Common
 {
 	public class VUMeter
 	{

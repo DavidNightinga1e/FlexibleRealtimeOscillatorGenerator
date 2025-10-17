@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Runtime
+namespace Runtime.Test
 {
 	public class SinewaveGenerator : MonoBehaviour
 	{

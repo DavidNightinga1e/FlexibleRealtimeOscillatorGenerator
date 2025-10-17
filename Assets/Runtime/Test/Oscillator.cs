@@ -1,6 +1,7 @@
 ﻿using System;
+using Runtime.Common;
 
-namespace Runtime
+namespace Runtime.Test
 {
 	public class Oscillator
 	{
