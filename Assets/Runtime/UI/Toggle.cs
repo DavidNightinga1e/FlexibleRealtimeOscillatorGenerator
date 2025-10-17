@@ -10,8 +10,14 @@ namespace Runtime.UI
 		[SerializeField] private Image on;
 		[SerializeField] private Image off;
 		
-		public bool State { get; private set; }
-		public event Action<bool> OnStateChanged; 
+		public bool Value { get; private set; }
+		public event Action<bool> ValueChanged; 
+
+		public void SetValueWithoutNotify(bool value)
+		{
+			Value = value;
+			SyncViewToState();
+		}
 
 		private void Awake()
 		{
@@ -21,15 +27,15 @@ namespace Runtime.UI
 
 		private void SyncViewToState()
 		{
-			on.enabled = State;
-			off.enabled = !State;
+			on.enabled = Value;
+			off.enabled = !Value;
 		}
 
 		private void OnButtonClick()
 		{
-			State = !State;
+			Value = !Value;
 			SyncViewToState();
-			OnStateChanged?.Invoke(State);
+			ValueChanged?.Invoke(Value);
 		}
 	}
 }

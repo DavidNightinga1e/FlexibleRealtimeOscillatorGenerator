@@ -1,67 +1,75 @@
 ﻿using System.Collections.Generic;
-using Runtime.Test;
 using UnityEngine;
 
 namespace Runtime.Synth
 {
 	public class EnvelopeDrawer : MonoBehaviour
 	{
+		private struct EnvelopeKeys
+		{
+			public double Time;
+			public double Value;
+
+			public EnvelopeKeys(double time, double value)
+			{
+				Time = time;
+				Value = value;
+			}
+		}
+
 		[SerializeField] private UILineRenderer _lineRenderer;
 		[SerializeField] private float plotWidth;
 		[SerializeField] private float plotHeight;
-		[SerializeField] private EnvelopeParameters _envelopeParameters;
 
-		[ContextMenu("Draw Envelope")]
-		private void Draw()
+		private readonly Vector2[] _points = new Vector2[5];
+		private readonly EnvelopeKeys[] _envelopeKeys = new EnvelopeKeys[5];
+
+		public void UpdateEnvelope(double attack, double decay, double sustain, double release)
 		{
-			var result = GetADSREnvelopeKeyPoints(
-				_envelopeParameters.Attack, 
-				_envelopeParameters.Decay,
-				_envelopeParameters.Sustain, 
-				_envelopeParameters.Release);
+			UpdateEnvelopeKeyPoints(attack, decay, sustain, release);
 
-			Vector2[] points = new Vector2[5];
-			for (int i = 0; i < points.Length; i++)
+			for (int i = 0; i < _points.Length; i++)
 			{
-				points[i] = new Vector2(
-					plotWidth * (float)result[i].time, 
-					(float)result[i].value * plotHeight);
+				_points[i] = new Vector2
+				(
+					(float)_envelopeKeys[i].Time * plotWidth,
+					(float)_envelopeKeys[i].Value * plotHeight
+				);
 			}
-			
-			_lineRenderer.Points = points;
+
+			_lineRenderer.Points = _points;
 		}
-		
-		public static List<(double time, double value)> GetADSREnvelopeKeyPoints(
-			double attackTime, 
-			double decayTime, 
-			double sustainLevel, 
+
+		private void UpdateEnvelopeKeyPoints
+		(
+			double attackTime,
+			double decayTime,
+			double sustainLevel,
 			double releaseTime,
 			double sustainWidth = 0.3,
-			double totalWidth = 1.0)
+			double totalWidth = 1.0
+		)
 		{
 			// Calculate time proportions
 			double totalTime = attackTime + decayTime + sustainWidth + releaseTime;
 			double scaleFactor = totalWidth / totalTime;
-        
+
 			double scaledAttack = attackTime * scaleFactor;
 			double scaledDecay = decayTime * scaleFactor;
 			double scaledSustain = sustainWidth * scaleFactor;
 			double scaledRelease = releaseTime * scaleFactor;
-        
+
 			// Calculate key points
 			double attackEndTime = scaledAttack;
 			double decayEndTime = attackEndTime + scaledDecay;
 			double sustainEndTime = decayEndTime + scaledSustain;
 			double releaseEndTime = sustainEndTime + scaledRelease;
-        
-			var keyPoints = new List<(double time, double value)>();
-			keyPoints.Add((0, 0));
-			keyPoints.Add((attackEndTime, 1.0));
-			keyPoints.Add((decayEndTime, sustainLevel));
-			keyPoints.Add((sustainEndTime, sustainLevel));
-			keyPoints.Add((releaseEndTime, 0));
-        
-			return keyPoints;
+
+			_envelopeKeys[0] = new EnvelopeKeys(0, 0);
+			_envelopeKeys[1] = new EnvelopeKeys(attackEndTime, 1);
+			_envelopeKeys[2] = new EnvelopeKeys(decayEndTime, sustainLevel);
+			_envelopeKeys[3] = new EnvelopeKeys(sustainEndTime, sustainLevel);
+			_envelopeKeys[4] = new EnvelopeKeys(releaseEndTime, 0);
 		}
 	}
 }

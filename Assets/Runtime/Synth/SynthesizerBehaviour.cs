@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Runtime.Common;
+using Runtime.Synth.Views;
 using UnityEngine;
 
 namespace Runtime.Synth
@@ -9,6 +8,9 @@ namespace Runtime.Synth
 	public class SynthesizerBehaviour : MonoBehaviour
 	{
 		[SerializeField] private Keyboard keyboard;
+		[SerializeField] private EnvelopeSettingsView _ampSettingsView;
+		[SerializeField] private OscillatorSettingsView _osc1SettingsView;
+		[SerializeField] private OscillatorSettingsView _osc2SettingsView;
 
 		private readonly OscillatorSettings _osc1Settings = OscillatorSettings.CreateBasicSine();
 		private readonly OscillatorSettings _osc2Settings = OscillatorSettings.CreateDisabledBasicSquare();
@@ -29,6 +31,10 @@ namespace Runtime.Synth
 			PrepareVoices();
 			keyboard.OnNotePressed += NoteOn;
 			keyboard.OnNoteReleased += NoteOff;
+			
+			_ampSettingsView.SetSettings(_ampSettings);
+			_osc1SettingsView.SetSettings(_osc1Settings);
+			_osc2SettingsView.SetSettings(_osc2Settings);
 		}
 
 		private void NoteOff(Note note)

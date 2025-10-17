@@ -79,8 +79,8 @@ namespace Runtime.Synth
 			_amp.NoteOn();
 			_env1.NoteOn();
 			_env2.NoteOn();
-			_osc1.NoteOn();
-			_osc2.NoteOn();
+			//_osc1.NoteOn();
+			//_osc2.NoteOn();
 		}
 
 		public void NoteOff()

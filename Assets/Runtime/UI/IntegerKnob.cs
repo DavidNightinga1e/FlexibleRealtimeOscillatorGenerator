@@ -15,9 +15,16 @@ namespace Runtime.UI
 		private float _currentRotation;
 		
 		public int Value { get; private set; }
+		public event Action<int> ValueChanged; 
 
 		private void Awake()
 		{
+			SyncViewToState();
+		}
+
+		public void SetValueWithoutNotify(int value)
+		{
+			Value = value;
 			SyncViewToState();
 		}
 
@@ -42,6 +49,7 @@ namespace Runtime.UI
 			}
 			
 			Value = closestRotationIndex;
+			ValueChanged?.Invoke(closestRotationIndex);
 			
 			SyncViewToState();
 		}

@@ -16,9 +16,16 @@ namespace Runtime.UI
 		private Vector2 _dragStartPosition;
 		
 		public float Value { get; private set; }
+		public event Action<float> ValueChanged; 
 
 		private void Awake()
 		{
+			SyncViewToState();
+		}
+
+		public void SetValueWithoutNotify(float value)
+		{
+			Value = value;
 			SyncViewToState();
 		}
 
@@ -42,6 +49,7 @@ namespace Runtime.UI
 			Vector2 delta = eventData.position - _dragStartPosition;
 			var rotation = delta.x * rotationMultiplier + delta.y * rotationMultiplier;
 			Value = Mathf.Clamp01(_dragStartValue + rotation);
+			ValueChanged?.Invoke(Value);
 			SyncViewToState();
 		}
 
