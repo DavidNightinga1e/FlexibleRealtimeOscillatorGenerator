@@ -10,7 +10,7 @@ namespace Runtime.Synth
 		private readonly EnvelopeSettings _settings;
 		private readonly int _sampleRate;
 
-		private EnvelopeState _state = EnvelopeState.Attack;
+		public EnvelopeState State { get; private set; } = EnvelopeState.Release;
 
 		private double _attackRate;
 		private double _decayRate;
@@ -28,7 +28,7 @@ namespace Runtime.Synth
 
 		public void NoteOn()
 		{
-			_state = EnvelopeState.Attack;
+			State = EnvelopeState.Attack;
 
 			_attackRate = (1 - Sample) / (_settings.AttackDuration * _sampleRate);
 			_decayRate = (1 - _settings.SustainValue) / (_settings.DecayDuration * _sampleRate);
@@ -36,14 +36,14 @@ namespace Runtime.Synth
 
 		public void NoteOff()
 		{
-			_state = EnvelopeState.Release;
+			State = EnvelopeState.Release;
 
 			_releaseRate = Sample / (_settings.ReleaseDuration * _sampleRate);
 		}
 
 		public void UpdateSample()
 		{
-			switch (_state)
+			switch (State)
 			{
 				case EnvelopeState.Attack:
 					UpdateAttack();
@@ -68,7 +68,7 @@ namespace Runtime.Synth
 				return;
 
 			Sample = 1;
-			_state = EnvelopeState.Decay;
+			State = EnvelopeState.Decay;
 		}
 
 		private void UpdateDecay()
@@ -78,7 +78,7 @@ namespace Runtime.Synth
 				return;
 
 			Sample = _settings.SustainValue;
-			_state = EnvelopeState.Sustain;
+			State = EnvelopeState.Sustain;
 		}
 
 		private void UpdateRelease()

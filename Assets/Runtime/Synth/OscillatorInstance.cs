@@ -4,7 +4,7 @@ using Runtime.Test;
 
 namespace Runtime.Synth
 {
-	public class OscillatorInstance : ISampleProvider
+	public class OscillatorInstance : ISampleProvider, INoteHandler
 	{
 		private readonly int _sampleRate;
 		private readonly double _baseFrequency;
@@ -94,6 +94,15 @@ namespace Runtime.Synth
 
 			while (_phase > 2 * Math.PI)
 				_phase -= 2 * Math.PI;
+		}
+
+		public void NoteOn()
+		{
+			_phase = 0;
+		}
+
+		public void NoteOff()
+		{
 		}
 	}
 }

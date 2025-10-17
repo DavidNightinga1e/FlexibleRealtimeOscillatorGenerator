@@ -1,4 +1,6 @@
-﻿namespace Runtime.Synth
+﻿using Runtime.Common;
+
+namespace Runtime.Synth
 {
 	public class Voice : INoteHandler, ISampleProvider
 	{
@@ -25,7 +27,9 @@
 		private EnvelopeInstance _env2;
 
 		public double Sample { get; private set; }
+		
 		public double AmpEnvelopeValue => _amp.Sample;
+		public bool IsFinished => _amp.State is EnvelopeState.Release && _amp.Sample < 0.001;
 
 		public Voice
 		(
@@ -75,6 +79,8 @@
 			_amp.NoteOn();
 			_env1.NoteOn();
 			_env2.NoteOn();
+			_osc1.NoteOn();
+			_osc2.NoteOn();
 		}
 
 		public void NoteOff()
@@ -82,6 +88,8 @@
 			_amp.NoteOff();
 			_env1.NoteOff();
 			_env2.NoteOff();
+			_osc1.NoteOff();
+			_osc2.NoteOff();
 		}
 
 		public void UpdateSample()

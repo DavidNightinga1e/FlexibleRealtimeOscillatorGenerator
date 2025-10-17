@@ -84,6 +84,9 @@ namespace Runtime.Synth
 
 			foreach (Voice v in _voices)
 			{
+				if (v.IsFinished)
+					continue;
+				
 				v.UpdateSample();
 				signal += v.Sample;
 				envelopeSum += v.AmpEnvelopeValue;
