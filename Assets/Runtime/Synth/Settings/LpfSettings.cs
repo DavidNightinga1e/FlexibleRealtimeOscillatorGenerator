@@ -3,7 +3,7 @@
 namespace Runtime.Synth
 {
 	// Low-pass filter parameters
-	public class FilterSettings : SettingsBase
+	public class LpfSettings : SettingsBase
 	{
 		public bool Enabled { get; set; }
 
@@ -11,20 +11,20 @@ namespace Runtime.Synth
 		public double QFactor { get; set; }
 
 		public LfoSelection LfoSelection { get; set; }
-		public double LfoFrequencyShift { get; set; }
+		public double LfoAmount { get; set; }
 
 		public EnvelopeSelection EnvelopeSelection { get; set; }
-		public double EnvelopeFrequencyShift { get; set; }
+		public double EnvelopeAmount { get; set; }
 
-		public static FilterSettings CreateDefault() => new()
+		public static LpfSettings CreateDefault() => new()
 		{
 			Enabled = false,
 			CutoffFrequency = 400,
 			QFactor = 0.9,
 			LfoSelection = LfoSelection.Off,
-			LfoFrequencyShift = 0,
+			LfoAmount = 0,
 			EnvelopeSelection = EnvelopeSelection.Off,
-			EnvelopeFrequencyShift = 0
+			EnvelopeAmount = 0
 		};
 	}
 }

@@ -12,7 +12,7 @@ namespace Runtime.Synth
 		private readonly OscillatorSettings _osc2Settings;
 		private readonly LfoSettings _lfo1Settings;
 		private readonly LfoSettings _lfo2Settings;
-		private readonly FilterSettings _filterSettings;
+		private readonly LpfSettings _lpfSettings;
 		private readonly EnvelopeSettings _ampSettings;
 		private readonly EnvelopeSettings _env1Settings;
 		private readonly EnvelopeSettings _env2Settings;
@@ -21,7 +21,7 @@ namespace Runtime.Synth
 		private OscillatorInstance _osc2;
 		private LfoInstance _lfo1;
 		private LfoInstance _lfo2;
-		private FilterInstance _filter;
+		private LpfInstance _lpf;
 		private EnvelopeInstance _amp;
 		private EnvelopeInstance _env1;
 		private EnvelopeInstance _env2;
@@ -39,7 +39,7 @@ namespace Runtime.Synth
 			OscillatorSettings osc2Settings,
 			LfoSettings lfo1Settings,
 			LfoSettings lfo2Settings,
-			FilterSettings filterSettings,
+			LpfSettings lpfSettings,
 			EnvelopeSettings ampSettings,
 			EnvelopeSettings env1Settings,
 			EnvelopeSettings env2Settings
@@ -51,7 +51,7 @@ namespace Runtime.Synth
 			_osc2Settings = osc2Settings;
 			_lfo1Settings = lfo1Settings;
 			_lfo2Settings = lfo2Settings;
-			_filterSettings = filterSettings;
+			_lpfSettings = lpfSettings;
 			_ampSettings = ampSettings;
 			_env1Settings = env1Settings;
 			_env2Settings = env2Settings;
@@ -68,7 +68,7 @@ namespace Runtime.Synth
 			_lfo1 = new LfoInstance(_sampleRate, _lfo1Settings);
 			_lfo2 = new LfoInstance(_sampleRate, _lfo2Settings);
 
-			_filter = new FilterInstance(_filterSettings, _env1, _env2, _lfo1, _lfo2);
+			_lpf = new LpfInstance(_lpfSettings, _env1, _env2, _lfo1, _lfo2);
 
 			_osc1 = new OscillatorInstance(_sampleRate, _baseFrequency, _osc1Settings, _lfo1, _lfo2);
 			_osc2 = new OscillatorInstance(_sampleRate, _baseFrequency, _osc2Settings, _lfo1, _lfo2);
@@ -111,7 +111,7 @@ namespace Runtime.Synth
 			if (_osc1Settings.Enabled && _osc2Settings.Enabled)
 				sample /= 2;
 			
-			_filter.ProcessSample(sample);
+			_lpf.ProcessSample(sample);
 
 			Sample = VoiceGain * sample * _amp.Sample;
 		}

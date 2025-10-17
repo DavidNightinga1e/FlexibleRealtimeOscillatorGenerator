@@ -7,8 +7,17 @@ namespace Runtime.Synth
 {
 	public class SynthesizerBehaviour : MonoBehaviour
 	{
+		#region MoveToWaveformView
+		[SerializeField] private UILineRenderer _waveformRenderer;
+		[SerializeField] private int _waveformRendererSampleRateDivider;
+		[SerializeField] private float _waveformRendererWidth;
+		[SerializeField] private float _waveformRendererHeight;
+		#endregion
+
 		[SerializeField] private Keyboard keyboard;
 		[SerializeField] private EnvelopeSettingsView _ampSettingsView;
+		[SerializeField] private EnvelopeSettingsView _env1SettingsView;
+		[SerializeField] private EnvelopeSettingsView _env2SettingsView;
 		[SerializeField] private OscillatorSettingsView _osc1SettingsView;
 		[SerializeField] private OscillatorSettingsView _osc2SettingsView;
 
@@ -16,7 +25,7 @@ namespace Runtime.Synth
 		private readonly OscillatorSettings _osc2Settings = OscillatorSettings.CreateDisabledBasicSquare();
 		private readonly LfoSettings _lfo1Settings = LfoSettings.CreateDisabled1HzSine();
 		private readonly LfoSettings _lfo2Settings = LfoSettings.CreateDisabled4HzSquare();
-		private readonly FilterSettings _filterSettings = FilterSettings.CreateDefault();
+		private readonly LpfSettings _lpfSettings = LpfSettings.CreateDefault();
 		private readonly EnvelopeSettings _ampSettings = EnvelopeSettings.CreateDefault();
 		private readonly EnvelopeSettings _env1Settings = EnvelopeSettings.CreateDefault();
 		private readonly EnvelopeSettings _env2Settings = EnvelopeSettings.CreateDefault();
@@ -25,16 +34,37 @@ namespace Runtime.Synth
 
 		private readonly Voice[] _voices = new Voice[(int)(Note.C8 + 1)];
 
+		private const int _waveformSampleCount = 400;
+
+		private readonly float[] _waveformSamples = new float[_waveformSampleCount];
+		private int _waveformWriteIndex = 0;
+		private int _skipCount = 0;
+		private readonly Vector2[] _waveformPositions = new Vector2[_waveformSampleCount];
+
 		private void Start()
 		{
 			_sampleRate = AudioSettings.outputSampleRate;
 			PrepareVoices();
 			keyboard.OnNotePressed += NoteOn;
 			keyboard.OnNoteReleased += NoteOff;
-			
+
 			_ampSettingsView.SetSettings(_ampSettings);
 			_osc1SettingsView.SetSettings(_osc1Settings);
 			_osc2SettingsView.SetSettings(_osc2Settings);
+		}
+
+		private void Update()
+		{
+			for (int i = 0; i < _waveformSampleCount; i++)
+			{
+				_waveformPositions[i] = new Vector2
+				(
+					_waveformRendererWidth * ((float)i / _waveformSampleCount),
+					_waveformRendererHeight * (_waveformSamples[i] / 2 + 0.5f)
+				);
+			}
+
+			_waveformRenderer.Points = _waveformPositions;
 		}
 
 		private void NoteOff(Note note)
@@ -61,7 +91,7 @@ namespace Runtime.Synth
 					_osc2Settings,
 					_lfo1Settings,
 					_lfo2Settings,
-					_filterSettings,
+					_lpfSettings,
 					_ampSettings,
 					_env1Settings,
 					_env2Settings
@@ -79,6 +109,14 @@ namespace Runtime.Synth
 				for (int channelIndex = 0; channelIndex < channels; channelIndex++)
 				{
 					data[dataIndex * channels + channelIndex] += (float)output;
+
+					_skipCount++;
+					if (_skipCount >= _waveformRendererSampleRateDivider)
+					{
+						_skipCount = 0;
+						_waveformSamples[_waveformWriteIndex++] = (float)output;
+						_waveformWriteIndex %= _waveformSamples.Length;
+					}
 				}
 			}
 		}
@@ -92,7 +130,7 @@ namespace Runtime.Synth
 			{
 				if (v.IsFinished)
 					continue;
-				
+
 				v.UpdateSample();
 				signal += v.Sample;
 				envelopeSum += v.AmpEnvelopeValue;

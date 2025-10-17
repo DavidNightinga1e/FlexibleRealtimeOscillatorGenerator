@@ -1,5 +1,6 @@
 ﻿using System;
 using Runtime.Common;
+using Runtime.Test;
 using Runtime.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,9 @@ namespace Runtime.Synth.Views
 		[SerializeField] private IntegerKnob waveformKnob;
 		[SerializeField] private FloatKnob gainKnob;
 		[SerializeField] private Slider octaveShiftSlider;
+		[SerializeField] private IntegerKnob envSelectionKnob;
+		[SerializeField] private LfoSelection vibratoLfoSelection;
+		[SerializeField] private FloatKnob vibratoAmountKnob;
 
 		private OscillatorSettings _settings;
 		
