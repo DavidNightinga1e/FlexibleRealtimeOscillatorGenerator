@@ -45,12 +45,13 @@ namespace Runtime.Synth
 		[SerializeField] private OscillatorSettingsView _osc2SettingsView;
 		[SerializeField] private LfoSettingsView _lfo1SettingsView;
 		[SerializeField] private LfoSettingsView _lfo2SettingsView;
+		[SerializeField] private FilterSettingsView _filterSettingsView;
 
 		private readonly OscillatorSettings _osc1Settings = OscillatorSettings.CreateBasicSine();
 		private readonly OscillatorSettings _osc2Settings = OscillatorSettings.CreateDisabledBasicSquare();
 		private readonly LfoSettings _lfo1Settings = LfoSettings.Create1HzSine();
 		private readonly LfoSettings _lfo2Settings = LfoSettings.Create4HzSquare();
-		private readonly LpfSettings _lpfSettings = LpfSettings.CreateDefault();
+		private readonly FilterSettings _filterSettings = FilterSettings.CreateDefault();
 		private readonly EnvelopeSettings _ampSettings = EnvelopeSettings.CreateDefault();
 		private readonly EnvelopeSettings _env1Settings = EnvelopeSettings.CreateDefault();
 		private readonly EnvelopeSettings _env2Settings = EnvelopeSettings.CreateDefault();
@@ -75,6 +76,8 @@ namespace Runtime.Synth
 
 			_osc1SettingsView.SetSettings(_osc1Settings);
 			_osc2SettingsView.SetSettings(_osc2Settings);
+			
+			_filterSettingsView.SetSettings(_filterSettings);
 		}
 
 		private void Update()
@@ -119,7 +122,7 @@ namespace Runtime.Synth
 					_osc2Settings,
 					_lfo1Settings,
 					_lfo2Settings,
-					_lpfSettings,
+					_filterSettings,
 					_ampSettings,
 					_env1Settings,
 					_env2Settings

@@ -5,7 +5,7 @@ namespace Runtime.Synth
 {
 	public class FilterInstance
 	{
-		private readonly LpfSettings _settings;
+		private readonly FilterSettings _settings;
 
 		private readonly EnvelopeInstance _env1;
 		private readonly EnvelopeInstance _env2;
@@ -14,14 +14,14 @@ namespace Runtime.Synth
 
 		public FilterInstance
 		(
-			LpfSettings lpfSettings,
+			FilterSettings filterSettings,
 			EnvelopeInstance env1,
 			EnvelopeInstance env2,
 			LfoInstance lfo1,
 			LfoInstance lfo2
 		)
 		{
-			_settings = lpfSettings;
+			_settings = filterSettings;
 			_env1 = env1;
 			_env2 = env2;
 			_lfo1 = lfo1;

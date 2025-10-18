@@ -1,14 +1,19 @@
-﻿using Runtime.Test;
+﻿using Runtime.Common;
+using Runtime.Test;
 
 namespace Runtime.Synth
 {
-	// Low-pass filter parameters
-	public class LpfSettings : SettingsBase
+	public class FilterSettings : SettingsBase
 	{
 		public bool Enabled { get; set; }
 
+		public FilterType FilterType { get; set; }
+		
+		public double Gain { get; set; }
 		public double CutoffFrequency { get; set; }
 		public double QFactor { get; set; }
+
+		public double KeyTracking { get; set; }
 
 		public LfoSelection LfoSelection { get; set; }
 		public double LfoAmount { get; set; }
@@ -16,11 +21,14 @@ namespace Runtime.Synth
 		public EnvelopeSelection EnvelopeSelection { get; set; }
 		public double EnvelopeAmount { get; set; }
 
-		public static LpfSettings CreateDefault() => new()
+		public static FilterSettings CreateDefault() => new()
 		{
-			Enabled = false,
+			Enabled = true,
+			Gain = 1.0,
+			FilterType = FilterType.LowPass,
 			CutoffFrequency = 400,
 			QFactor = 0.9,
+			KeyTracking = 1.0,
 			LfoSelection = LfoSelection.Off,
 			LfoAmount = 0,
 			EnvelopeSelection = EnvelopeSelection.Off,
