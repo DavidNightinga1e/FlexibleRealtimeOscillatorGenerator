@@ -73,7 +73,7 @@ namespace Runtime.Synth
 			else
 			{
 				double lfoSample = vibratoLfo.Sample;
-				var pitchShift = lfoSample * _settings.VibratoSemitone;
+				var pitchShift = lfoSample * _settings.VibratoAmountSemitones;
 				var frequencyMultiplier = Math.Pow(2, pitchShift / 12);
 				_activeFrequency = _baseFrequency * frequencyMultiplier;
 			}

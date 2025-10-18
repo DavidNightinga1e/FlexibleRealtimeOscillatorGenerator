@@ -1,9 +1,7 @@
-﻿using System;
-using Runtime.Common;
+﻿using Runtime.Common;
+using Runtime.Synth.Presenters;
 using Runtime.Test;
-using Runtime.UI;
 using UnityEngine;
-using UnityEngine.UI;
 using Toggle = Runtime.UI.Toggle;
 
 namespace Runtime.Synth.Views
@@ -11,14 +9,12 @@ namespace Runtime.Synth.Views
 	public class OscillatorSettingsView : MonoBehaviour
 	{
 		[SerializeField] private Toggle enabledToggle;
-		[SerializeField] private IntegerKnob waveformKnob;
-		[SerializeField] private FloatKnob gainKnob;
-		[SerializeField] private Slider octaveShiftSlider;
-		[SerializeField] private IntegerKnob envSelectionKnob;
-		[SerializeField] private IntegerKnob vibratoLfoSelectionKnob;
-		[SerializeField] private FloatKnob vibratoAmountKnob;
-
-		private const float VibratoSemitones = 3;
+		[SerializeField] private WaveformPresenter waveformPresenter;
+		[SerializeField] private GainPresenter gainPresenter;
+		[SerializeField] private OctaveShiftPresenter octaveShiftPresenter;
+		[SerializeField] private EnvelopeSelectionPresenter envelopeSelectionPresenter;
+		[SerializeField] private VibratoAmountPresenter vibratoAmountPresenter;
+		[SerializeField] private LfoSelectionPresenter vibratoLfoSelectionPresenter;
 
 		private OscillatorSettings _settings;
 
@@ -27,42 +23,58 @@ namespace Runtime.Synth.Views
 			_settings = settings;
 
 			enabledToggle.SetValueWithoutNotify(_settings.Enabled);
-			waveformKnob.SetValueWithoutNotify((int)_settings.Waveform);
-			gainKnob.SetValueWithoutNotify((float)_settings.Gain);
-			octaveShiftSlider.SetValueWithoutNotify(_settings.OctaveShift);
-			gainKnob.SetValueText($"{_settings.Gain:0.00}");
-			envSelectionKnob.SetValueWithoutNotify((int)_settings.EnvelopeSelection);
-			vibratoLfoSelectionKnob.SetValueWithoutNotify((int)_settings.VibratoLfoSelection);
-			vibratoAmountKnob.SetValueWithoutNotify(Mathf.InverseLerp(0, VibratoSemitones,
-				(float)_settings.VibratoSemitone));
+			waveformPresenter.SetValueWithoutNotify(_settings.Waveform);
+			gainPresenter.SetValueWithoutNotify(_settings.Gain);
+			octaveShiftPresenter.SetValueWithoutNotify(_settings.OctaveShift);
+			envelopeSelectionPresenter.SetValueWithoutNotify(_settings.EnvelopeSelection);
+			vibratoLfoSelectionPresenter.SetValueWithoutNotify(_settings.VibratoLfoSelection);
+			vibratoAmountPresenter.SetValueWithoutNotify(_settings.VibratoAmountSemitones);
 		}
 
 		private void Awake()
 		{
 			enabledToggle.ValueChanged += OnEnabledValueChanged;
-			waveformKnob.ValueChanged += OnWaveformChanged;
-			gainKnob.ValueChanged += OnGainChanged;
-			envSelectionKnob.ValueChanged += OnEnvSelectionValueChanged;
-			vibratoLfoSelectionKnob.ValueChanged += OnVibratoLvoSelectionValueChanged;
-			vibratoAmountKnob.ValueChanged += OnVibratoAmountValueChanged;
-			octaveShiftSlider.onValueChanged.AddListener(OnOctaveShiftValueChanged);
+			waveformPresenter.ValueChanged += OnWaveformChanged;
+			gainPresenter.ValueChanged += OnGainChanged;
+			octaveShiftPresenter.ValueChanged += OnOctaveShiftChanged;
+			envelopeSelectionPresenter.ValueChanged += OnEnvelopeSelectionChanged;
+			vibratoLfoSelectionPresenter.ValueChanged += OnVibratoLfoSelectionChanged;
+			vibratoAmountPresenter.ValueChanged += OnVibratoAmountChanged;
 		}
 
-		private void OnVibratoAmountValueChanged(float obj)
+		private void OnVibratoAmountChanged(double obj)
 		{
-			_settings.VibratoSemitone = Mathf.Lerp(0, VibratoSemitones, obj);
+			_settings.VibratoAmountSemitones = obj;
 			_settings.InvokeChanged();
 		}
 
-		private void OnVibratoLvoSelectionValueChanged(int obj)
+		private void OnVibratoLfoSelectionChanged(LfoSelection obj)
 		{
-			_settings.VibratoLfoSelection = (LfoSelection)obj;
+			_settings.VibratoLfoSelection = obj;
 			_settings.InvokeChanged();
 		}
 
-		private void OnEnvSelectionValueChanged(int obj)
+		private void OnEnvelopeSelectionChanged(EnvelopeSelection obj)
 		{
-			_settings.EnvelopeSelection = (EnvelopeSelection)obj;
+			_settings.EnvelopeSelection = obj;
+			_settings.InvokeChanged();
+		}
+
+		private void OnOctaveShiftChanged(int obj)
+		{
+			_settings.OctaveShift = obj;
+			_settings.InvokeChanged();
+		}
+
+		private void OnGainChanged(double obj)
+		{
+			_settings.Gain = obj;
+			_settings.InvokeChanged();
+		}
+
+		private void OnWaveformChanged(Waveform obj)
+		{
+			_settings.Waveform = obj;
 			_settings.InvokeChanged();
 		}
 
@@ -72,29 +84,15 @@ namespace Runtime.Synth.Views
 			_settings.InvokeChanged();
 		}
 
-		private void OnOctaveShiftValueChanged(float arg0)
-		{
-			_settings.OctaveShift = (int)arg0;
-			_settings.InvokeChanged();
-		}
-
-		private void OnGainChanged(float obj)
-		{
-			gainKnob.SetValueText($"{obj:0.00}");
-			_settings.Gain = obj;
-			_settings.InvokeChanged();
-		}
-
-		private void OnWaveformChanged(int obj)
-		{
-			_settings.Waveform = (Waveform)obj;
-			_settings.InvokeChanged();
-		}
-
 		private void OnDestroy()
 		{
-			waveformKnob.ValueChanged -= OnWaveformChanged;
-			gainKnob.ValueChanged -= OnGainChanged;
+			enabledToggle.ValueChanged -= OnEnabledValueChanged;
+			waveformPresenter.ValueChanged -= OnWaveformChanged;
+			gainPresenter.ValueChanged -= OnGainChanged;
+			octaveShiftPresenter.ValueChanged -= OnOctaveShiftChanged;
+			envelopeSelectionPresenter.ValueChanged -= OnEnvelopeSelectionChanged;
+			vibratoLfoSelectionPresenter.ValueChanged -= OnVibratoLfoSelectionChanged;
+			vibratoAmountPresenter.ValueChanged -= OnVibratoAmountChanged;
 		}
 	}
 }
