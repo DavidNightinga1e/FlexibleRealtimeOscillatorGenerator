@@ -14,7 +14,7 @@ namespace Runtime.Synth
 		public EnvelopeSelection EnvelopeSelection { get; set; }
 
 		public LfoSelection VibratoLfoSelection { get; set; }
-		public double VibratoFrequencyShift { get; set; }
+		public double VibratoSemitone { get; set; }
 
 		public static OscillatorSettings CreateBasicSine() => new()
 		{
@@ -24,7 +24,7 @@ namespace Runtime.Synth
 			Gain = 1,
 			EnvelopeSelection = EnvelopeSelection.Off,
 			VibratoLfoSelection = LfoSelection.Off,
-			VibratoFrequencyShift = 0
+			VibratoSemitone = 0
 		};
 
 		public static OscillatorSettings CreateDisabledBasicSquare() => new()
@@ -35,7 +35,7 @@ namespace Runtime.Synth
 			Gain = 1,
 			EnvelopeSelection = EnvelopeSelection.Off,
 			VibratoLfoSelection = LfoSelection.Off,
-			VibratoFrequencyShift = 0
+			VibratoSemitone = 0
 		};
 	}
 }

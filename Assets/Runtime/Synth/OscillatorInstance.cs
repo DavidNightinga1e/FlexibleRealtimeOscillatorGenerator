@@ -1,6 +1,7 @@
 ﻿using System;
 using Runtime.Common;
 using Runtime.Test;
+using UnityEngine;
 
 namespace Runtime.Synth
 {
@@ -11,6 +12,8 @@ namespace Runtime.Synth
 		private readonly OscillatorSettings _settings;
 		private readonly LfoInstance _lfo1;
 		private readonly LfoInstance _lfo2;
+		private readonly EnvelopeInstance _env1;
+		private readonly EnvelopeInstance _env2;
 
 		private double _activeFrequency;
 		private double _phase;
@@ -24,7 +27,9 @@ namespace Runtime.Synth
 			double baseFrequency,
 			OscillatorSettings settings,
 			LfoInstance lfo1,
-			LfoInstance lfo2
+			LfoInstance lfo2,
+			EnvelopeInstance env1,
+			EnvelopeInstance env2
 		)
 		{
 			_sampleRate = sampleRate;
@@ -32,6 +37,8 @@ namespace Runtime.Synth
 			_settings = settings;
 			_lfo1 = lfo1;
 			_lfo2 = lfo2;
+			_env1 = env1;
+			_env2 = env2;
 		}
 
 		public void UpdateSample()
@@ -41,20 +48,20 @@ namespace Runtime.Synth
 				Sample = 0;
 				return;
 			}
-			
-			LfoInstance vibratoLfoSelection = _settings.VibratoLfoSelection switch
-			{
-				LfoSelection.Off => null,
-				LfoSelection.Lfo1 => _lfo1,
-				LfoSelection.Lfo2 => _lfo2,
-				_ => throw new ArgumentOutOfRangeException()
-			};
-			
+
+			LfoInstance vibratoLfoSelection = SelectorUtilities.SelectLfo(_lfo1, _lfo2, _settings.VibratoLfoSelection);
 			UpdateVibrato(vibratoLfoSelection);
 
 			UpdatePhase();
+			
+			EnvelopeInstance env = SelectorUtilities.SelectEnvelope(_env1, _env2, _settings.EnvelopeSelection);
+			double envSample = env?.Sample ?? 1;
 
-			Sample = _settings.Gain * WaveformUtility.Evaluate(_settings.Waveform, _phase);
+			double sample = WaveformUtility.Evaluate(_settings.Waveform, _phase);
+			sample *= _settings.Gain;
+			sample *= envSample;
+			
+			Sample = sample;
 		}
 
 		private void UpdateVibrato(LfoInstance vibratoLfo)
@@ -66,8 +73,9 @@ namespace Runtime.Synth
 			else
 			{
 				double lfoSample = vibratoLfo.Sample;
-				var pitchShift = lfoSample * _settings.VibratoFrequencyShift;
-				_activeFrequency = _baseFrequency * pitchShift;
+				var pitchShift = lfoSample * _settings.VibratoSemitone;
+				var frequencyMultiplier = Math.Pow(2, pitchShift / 12);
+				_activeFrequency = _baseFrequency * frequencyMultiplier;
 			}
 
 			UpdatePhaseIncrement();

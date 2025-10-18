@@ -40,7 +40,7 @@ namespace Runtime.UI
 			float closestDistance = float.MaxValue;
 			for (int i = 0; i < rotations.Count; i++)
 			{
-				float distance = Mathf.Abs(knob.eulerAngles.z - rotations[i]);
+				float distance = Mathf.Abs(Mathf.DeltaAngle(knob.eulerAngles.z, rotations[i]));
 				if (distance < closestDistance)
 				{
 					closestRotationIndex = i;

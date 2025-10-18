@@ -8,16 +8,16 @@ namespace Runtime.Synth
 		public Waveform Waveform { get; set; }
 		public double Frequency { get; set; }
 
-		public static LfoSettings CreateDisabled1HzSine() => new()
+		public static LfoSettings Create1HzSine() => new()
 		{
-			Enabled = false,
+			Enabled = true,
 			Waveform = Waveform.Sine,
 			Frequency = 1.0,
 		};
 
-		public static LfoSettings CreateDisabled4HzSquare() => new()
+		public static LfoSettings Create4HzSquare() => new()
 		{
-			Enabled = false,
+			Enabled = true,
 			Waveform = Waveform.Square,
 			Frequency = 4.0,
 		};

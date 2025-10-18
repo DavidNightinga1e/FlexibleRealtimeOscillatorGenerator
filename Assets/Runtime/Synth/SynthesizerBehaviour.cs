@@ -23,8 +23,8 @@ namespace Runtime.Synth
 
 		private readonly OscillatorSettings _osc1Settings = OscillatorSettings.CreateBasicSine();
 		private readonly OscillatorSettings _osc2Settings = OscillatorSettings.CreateDisabledBasicSquare();
-		private readonly LfoSettings _lfo1Settings = LfoSettings.CreateDisabled1HzSine();
-		private readonly LfoSettings _lfo2Settings = LfoSettings.CreateDisabled4HzSquare();
+		private readonly LfoSettings _lfo1Settings = LfoSettings.Create1HzSine();
+		private readonly LfoSettings _lfo2Settings = LfoSettings.Create4HzSquare();
 		private readonly LpfSettings _lpfSettings = LpfSettings.CreateDefault();
 		private readonly EnvelopeSettings _ampSettings = EnvelopeSettings.CreateDefault();
 		private readonly EnvelopeSettings _env1Settings = EnvelopeSettings.CreateDefault();
@@ -49,6 +49,8 @@ namespace Runtime.Synth
 			keyboard.OnNoteReleased += NoteOff;
 
 			_ampSettingsView.SetSettings(_ampSettings);
+			_env1SettingsView.SetSettings(_env1Settings);
+			_env2SettingsView.SetSettings(_env2Settings);
 			_osc1SettingsView.SetSettings(_osc1Settings);
 			_osc2SettingsView.SetSettings(_osc2Settings);
 		}

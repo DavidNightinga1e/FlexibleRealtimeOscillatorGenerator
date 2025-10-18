@@ -1,16 +1,13 @@
 fileFormatVersion: 2
-guid: 60a0a3fbb1a21074d8a0b8fe91748a0a
+guid: 1a6b1ce6585571a40939c19fb35ef75e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8438330397923716267
-    second: LargeKnobBackground_0
+      213: 6034031150602168013
+    second: SmallKnobBackground_0
   - first:
-      213: -1697196399825821869
-    second: LargeKnobBackground_1
-  - first:
-      213: 6456814900246429141
-    second: LargeKnobBackground_2
+      213: 8258432601700359107
+    second: SmallKnobBackground_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -106,13 +103,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: LargeKnobBackground_0
+      name: SmallKnobBackground_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 118
-        height: 115
+        width: 87
+        height: 87
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -121,20 +118,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bacaf99e9c8fa1570800000000000000
-      internalID: 8438330397923716267
+      spriteID: dc6a84f9c5f2db350800000000000000
+      internalID: 6034031150602168013
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LargeKnobBackground_1
+      name: SmallKnobBackground_1
       rect:
         serializedVersion: 2
-        x: 14
-        y: 87
-        width: 13
-        height: 14
+        x: 11
+        y: 67
+        width: 10
+        height: 10
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,30 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 35f5f42ddd85278e0800000000000000
-      internalID: -1697196399825821869
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: LargeKnobBackground_2
-      rect:
-        serializedVersion: 2
-        x: 86
-        y: 87
-        width: 14
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5dd33ad21f63b9950800000000000000
-      internalID: 6456814900246429141
+      spriteID: 3cbdad932b8db9270800000000000000
+      internalID: 8258432601700359107
       vertices: []
       indices: 
       edges: []
@@ -175,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 72faecddf713ce044aba00595ac77ed1
+    spriteID: 08100b1341ad7ce4bbdb28270a3a74d6
     internalID: 0
     vertices: []
     indices: 
@@ -185,9 +160,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      LargeKnobBackground_0: 8438330397923716267
-      LargeKnobBackground_1: -1697196399825821869
-      LargeKnobBackground_2: 6456814900246429141
+      SmallKnobBackground_0: 6034031150602168013
+      SmallKnobBackground_1: 8258432601700359107
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

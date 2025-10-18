@@ -5,7 +5,7 @@ namespace Runtime.Synth
 	public class Voice : INoteHandler, ISampleProvider
 	{
 		private const double VoiceGain = 0.707;
-		
+
 		private readonly int _sampleRate;
 		private readonly double _baseFrequency;
 		private readonly OscillatorSettings _osc1Settings;
@@ -27,7 +27,7 @@ namespace Runtime.Synth
 		private EnvelopeInstance _env2;
 
 		public double Sample { get; private set; }
-		
+
 		public double AmpEnvelopeValue => _amp.Sample;
 		public bool IsFinished => _amp.State is EnvelopeState.Release && _amp.Sample < 0.001;
 
@@ -70,8 +70,8 @@ namespace Runtime.Synth
 
 			_lpf = new LpfInstance(_lpfSettings, _env1, _env2, _lfo1, _lfo2);
 
-			_osc1 = new OscillatorInstance(_sampleRate, _baseFrequency, _osc1Settings, _lfo1, _lfo2);
-			_osc2 = new OscillatorInstance(_sampleRate, _baseFrequency, _osc2Settings, _lfo1, _lfo2);
+			_osc1 = new OscillatorInstance(_sampleRate, _baseFrequency, _osc1Settings, _lfo1, _lfo2, _env1, _env2);
+			_osc2 = new OscillatorInstance(_sampleRate, _baseFrequency, _osc2Settings, _lfo1, _lfo2, _env1, _env2);
 		}
 
 		public void NoteOn()
@@ -110,7 +110,7 @@ namespace Runtime.Synth
 			double sample = _osc1.Sample + _osc2.Sample;
 			if (_osc1Settings.Enabled && _osc2Settings.Enabled)
 				sample /= 2;
-			
+
 			_lpf.ProcessSample(sample);
 
 			Sample = VoiceGain * sample * _amp.Sample;
