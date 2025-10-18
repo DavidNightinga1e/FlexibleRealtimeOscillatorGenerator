@@ -33,7 +33,8 @@ namespace Runtime.Synth
 
 			UpdatePhaseIncrement();
 			UpdatePhase();
-			Sample = WaveformUtility.Evaluate(_settings.Waveform, _phase);
+			
+			Sample = _settings.Gain * WaveformUtility.Evaluate(_settings.Waveform, _phase);
 		}
 
 		private void UpdatePhase()

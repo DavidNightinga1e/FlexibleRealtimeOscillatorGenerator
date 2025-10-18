@@ -3,7 +3,7 @@ using Runtime.Test;
 
 namespace Runtime.Synth
 {
-	public class LpfInstance
+	public class FilterInstance
 	{
 		private readonly LpfSettings _settings;
 
@@ -12,7 +12,7 @@ namespace Runtime.Synth
 		private readonly LfoInstance _lfo1;
 		private readonly LfoInstance _lfo2;
 
-		public LpfInstance
+		public FilterInstance
 		(
 			LpfSettings lpfSettings,
 			EnvelopeInstance env1,

@@ -21,7 +21,7 @@ namespace Runtime.Synth
 		private OscillatorInstance _osc2;
 		private LfoInstance _lfo1;
 		private LfoInstance _lfo2;
-		private LpfInstance _lpf;
+		private FilterInstance _filter;
 		private EnvelopeInstance _amp;
 		private EnvelopeInstance _env1;
 		private EnvelopeInstance _env2;
@@ -68,7 +68,7 @@ namespace Runtime.Synth
 			_lfo1 = new LfoInstance(_sampleRate, _lfo1Settings);
 			_lfo2 = new LfoInstance(_sampleRate, _lfo2Settings);
 
-			_lpf = new LpfInstance(_lpfSettings, _env1, _env2, _lfo1, _lfo2);
+			_filter = new FilterInstance(_lpfSettings, _env1, _env2, _lfo1, _lfo2);
 
 			_osc1 = new OscillatorInstance(_sampleRate, _baseFrequency, _osc1Settings, _lfo1, _lfo2, _env1, _env2);
 			_osc2 = new OscillatorInstance(_sampleRate, _baseFrequency, _osc2Settings, _lfo1, _lfo2, _env1, _env2);
@@ -111,7 +111,7 @@ namespace Runtime.Synth
 			if (_osc1Settings.Enabled && _osc2Settings.Enabled)
 				sample /= 2;
 
-			_lpf.ProcessSample(sample);
+			_filter.ProcessSample(sample);
 
 			Sample = VoiceGain * sample * _amp.Sample;
 		}

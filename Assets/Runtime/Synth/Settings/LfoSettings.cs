@@ -7,12 +7,14 @@ namespace Runtime.Synth
 		public bool Enabled { get; set; }
 		public Waveform Waveform { get; set; }
 		public double Frequency { get; set; }
+		public double Gain { get; set; }
 
 		public static LfoSettings Create1HzSine() => new()
 		{
 			Enabled = true,
 			Waveform = Waveform.Sine,
 			Frequency = 1.0,
+			Gain = 1.0,
 		};
 
 		public static LfoSettings Create4HzSquare() => new()
@@ -20,6 +22,7 @@ namespace Runtime.Synth
 			Enabled = true,
 			Waveform = Waveform.Square,
 			Frequency = 4.0,
+			Gain = 1.0,
 		};
 	}
 }
