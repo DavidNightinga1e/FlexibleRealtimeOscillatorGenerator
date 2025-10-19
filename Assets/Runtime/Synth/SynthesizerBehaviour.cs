@@ -112,7 +112,7 @@ namespace Runtime.Synth
 
 			_frequencyPlotRenderer.Points = _frequencyPlotPositions;
 			
-			timeText.text = _lastElapsed.ToString("0000.00ms");
+			timeText.text = _lastElapsed.ToString("00.00ms");
 		}
 
 		private void NoteOff(Note note)
@@ -184,7 +184,8 @@ namespace Runtime.Synth
 				}
 			}
 
-			_lastElapsed = _stopwatch.ElapsedMilliseconds;
+			_lastElapsed = (double)_stopwatch.ElapsedTicks / TimeSpan.TicksPerMillisecond;
+			
 			_stopwatch.Stop();
 		}
 
