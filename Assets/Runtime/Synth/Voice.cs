@@ -68,7 +68,7 @@ namespace Runtime.Synth
 			_lfo1 = new LfoInstance(_sampleRate, _lfo1Settings);
 			_lfo2 = new LfoInstance(_sampleRate, _lfo2Settings);
 
-			_filter = new FilterInstance(_filterSettings, _env1, _env2, _lfo1, _lfo2);
+			_filter = new FilterInstance(_sampleRate, _filterSettings, _env1, _env2, _lfo1, _lfo2);
 
 			_osc1 = new OscillatorInstance(_sampleRate, _baseFrequency, _osc1Settings, _lfo1, _lfo2, _env1, _env2);
 			_osc2 = new OscillatorInstance(_sampleRate, _baseFrequency, _osc2Settings, _lfo1, _lfo2, _env1, _env2);
@@ -79,8 +79,6 @@ namespace Runtime.Synth
 			_amp.NoteOn();
 			_env1.NoteOn();
 			_env2.NoteOn();
-			//_osc1.NoteOn();
-			//_osc2.NoteOn();
 		}
 
 		public void NoteOff()
@@ -88,8 +86,6 @@ namespace Runtime.Synth
 			_amp.NoteOff();
 			_env1.NoteOff();
 			_env2.NoteOff();
-			_osc1.NoteOff();
-			_osc2.NoteOff();
 		}
 
 		public void UpdateSample()
@@ -111,7 +107,7 @@ namespace Runtime.Synth
 			if (_osc1Settings.Enabled && _osc2Settings.Enabled)
 				sample /= 2;
 
-			_filter.ProcessSample(sample);
+			sample = _filter.ProcessSample(sample);
 
 			Sample = VoiceGain * sample * _amp.Sample;
 		}

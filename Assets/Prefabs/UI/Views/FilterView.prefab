@@ -62,7 +62,7 @@ MonoBehaviour:
   filterTypeSelectorPresenter: {fileID: 6378035340631993475}
   gainPresenter: {fileID: 4157642399826106542}
   cutoffFrequencyPresenter: {fileID: 4782593373827545012}
-  qFactorPresenter: {fileID: 4157642399826106542}
+  qFactorPresenter: {fileID: 1751930698089758531}
   envelopeSelectionPresenter: {fileID: 4546150217222222852}
   envelopeAmountPresenter: {fileID: 5298117000215014972}
   lfoSelectionPresenter: {fileID: 3295783699267777857}
@@ -372,11 +372,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5316612712039690335, guid: 4a170c3d380f93d4ab7f6667dc618165, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 163.24783
+      value: 373.8052
       objectReference: {fileID: 0}
     - target: {fileID: 5316612712039690335, guid: 4a170c3d380f93d4ab7f6667dc618165, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -225.91946
+      value: -99.60501
       objectReference: {fileID: 0}
     - target: {fileID: 5316612712039690335, guid: 4a170c3d380f93d4ab7f6667dc618165, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -481,11 +481,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 76956749621113122, guid: 8972cb2c82fca0b489adc26f189f03a3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 477.59296
+      value: 269.30307
       objectReference: {fileID: 0}
     - target: {fileID: 76956749621113122, guid: 8972cb2c82fca0b489adc26f189f03a3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -99.60501
+      value: -225.91946
       objectReference: {fileID: 0}
     - target: {fileID: 76956749621113122, guid: 8972cb2c82fca0b489adc26f189f03a3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -598,11 +598,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 76956749621113122, guid: 8972cb2c82fca0b489adc26f189f03a3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 269.30307
+      value: 477.59296
       objectReference: {fileID: 0}
     - target: {fileID: 76956749621113122, guid: 8972cb2c82fca0b489adc26f189f03a3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -225.91946
+      value: -99.60501
       objectReference: {fileID: 0}
     - target: {fileID: 76956749621113122, guid: 8972cb2c82fca0b489adc26f189f03a3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -941,11 +941,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 76956749621113122, guid: 8972cb2c82fca0b489adc26f189f03a3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 373.8052
+      value: 163.24783
       objectReference: {fileID: 0}
     - target: {fileID: 76956749621113122, guid: 8972cb2c82fca0b489adc26f189f03a3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -99.60501
+      value: -225.91946
       objectReference: {fileID: 0}
     - target: {fileID: 76956749621113122, guid: 8972cb2c82fca0b489adc26f189f03a3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -972,6 +972,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8972cb2c82fca0b489adc26f189f03a3, type: 3}
+--- !u!114 &1751930698089758531 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8537293711871204769, guid: 8972cb2c82fca0b489adc26f189f03a3, type: 3}
+  m_PrefabInstance: {fileID: 7938320939735818978}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d8baee41994446a86cee86467df96ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Runtime.Synth.Presenters.GainPresenter
 --- !u!224 &8015267230701032384 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 76956749621113122, guid: 8972cb2c82fca0b489adc26f189f03a3, type: 3}

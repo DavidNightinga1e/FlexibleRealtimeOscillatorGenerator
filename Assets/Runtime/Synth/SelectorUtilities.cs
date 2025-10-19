@@ -1,10 +1,12 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Runtime.Test;
 
 namespace Runtime.Synth
 {
 	public static class SelectorUtilities
 	{
+		[CanBeNull]
 		public static EnvelopeInstance SelectEnvelope
 		(
 			EnvelopeInstance env1,
@@ -18,6 +20,7 @@ namespace Runtime.Synth
 			_ => throw new ArgumentOutOfRangeException(nameof(selection), selection, null)
 		};
 
+		[CanBeNull]
 		public static LfoInstance SelectLfo
 		(
 			LfoInstance lfo1,
