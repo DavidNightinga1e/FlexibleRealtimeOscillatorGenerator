@@ -46,6 +46,7 @@ namespace Runtime.Synth
 		[SerializeField] private LfoSettingsView _lfo1SettingsView;
 		[SerializeField] private LfoSettingsView _lfo2SettingsView;
 		[SerializeField] private FilterSettingsView _filterSettingsView;
+		[SerializeField] private DelaySettingsView _delaySettingsView;
 
 		private readonly OscillatorSettings _osc1Settings = OscillatorSettings.CreateBasicSine();
 		private readonly OscillatorSettings _osc2Settings = OscillatorSettings.CreateDisabledBasicSquare();
@@ -55,15 +56,20 @@ namespace Runtime.Synth
 		private readonly EnvelopeSettings _ampSettings = EnvelopeSettings.CreateDefault();
 		private readonly EnvelopeSettings _env1Settings = EnvelopeSettings.CreateDefault();
 		private readonly EnvelopeSettings _env2Settings = EnvelopeSettings.CreateDefault();
+		private readonly DelaySettings _delaySettings = DelaySettings.CreateDefault();
 
 		private int _sampleRate;
 
 		private readonly Voice[] _voices = new Voice[(int)(Note.C8 + 1)];
+		private DelayInstance _delayInstance;
 
 		private void Start()
 		{
 			_sampleRate = AudioSettings.outputSampleRate;
+
 			PrepareVoices();
+			PrepareEffects();
+
 			keyboard.OnNotePressed += NoteOn;
 			keyboard.OnNoteReleased += NoteOff;
 
@@ -76,8 +82,10 @@ namespace Runtime.Synth
 
 			_osc1SettingsView.SetSettings(_osc1Settings);
 			_osc2SettingsView.SetSettings(_osc2Settings);
-			
+
 			_filterSettingsView.SetSettings(_filterSettings);
+			
+			_delaySettingsView.SetSettings(_delaySettings);
 		}
 
 		private void Update()
@@ -92,7 +100,7 @@ namespace Runtime.Synth
 			}
 
 			_waveformRenderer.Points = _waveformPositions;
-			
+
 			GenerateFrequencyPlot(_frequencyPlotSamples);
 
 			_frequencyPlotRenderer.Points = _frequencyPlotPositions;
@@ -130,6 +138,11 @@ namespace Runtime.Synth
 			}
 		}
 
+		private void PrepareEffects()
+		{
+			_delayInstance = new DelayInstance(_sampleRate, _delaySettings);
+		}
+
 		private void OnAudioFilterRead(float[] data, int channels)
 		{
 			int dataLength = data.Length / channels;
@@ -140,6 +153,8 @@ namespace Runtime.Synth
 			for (int dataIndex = 0; dataIndex < dataLength; dataIndex++)
 			{
 				var output = MixVoices();
+				
+				output = ApplyEffects(output);
 
 				for (int channelIndex = 0; channelIndex < channels; channelIndex++)
 				{
@@ -157,6 +172,12 @@ namespace Runtime.Synth
 					_frequencyPlotWriteIndex %= _frequencyPlotSamples.Length;
 				}
 			}
+		}
+
+		private double ApplyEffects(double sample)
+		{
+			sample = _delayInstance.ProcessSample(sample); 
+			return sample;
 		}
 
 		private double MixVoices()
@@ -195,29 +216,29 @@ namespace Runtime.Synth
 		public void GenerateFrequencyPlot(float[] samples)
 		{
 			var dcRemoved = RemoveDCOffset(samples);
-        
+
 			// Step 2: Apply high-quality window
 			var windowed = ApplyBlackmanWindow(dcRemoved);
-        
+
 			// Step 3: Perform FFT
 			var spectrum = ComputeFFT(windowed);
 
 			// Convert to magnitude and generate plot points
 			ConvertToPlotPoints(spectrum);
 		}
-		
+
 		private float[] RemoveDCOffset(float[] samples)
 		{
 			// Calculate mean (DC offset)
 			float mean = samples.Average();
-    
+
 			// Remove DC component
 			var corrected = new float[samples.Length];
 			for (int i = 0; i < samples.Length; i++)
 			{
 				corrected[i] = samples[i] - mean;
 			}
-    
+
 			return corrected;
 		}
 
@@ -235,26 +256,26 @@ namespace Runtime.Synth
 
 			return windowed;
 		}
-		
+
 		private float[] ApplyBlackmanWindow(float[] samples)
 		{
 			var windowed = new float[samples.Length];
 			int n = samples.Length;
-    
+
 			for (int i = 0; i < n; i++)
 			{
 				// Blackman window has better frequency resolution
 				float a0 = 0.42f;
 				float a1 = 0.5f;
 				float a2 = 0.08f;
-        
-				float window = a0 
-				               - a1 * Mathf.Cos(2 * Mathf.PI * i / (n - 1)) 
+
+				float window = a0
+				               - a1 * Mathf.Cos(2 * Mathf.PI * i / (n - 1))
 				               + a2 * Mathf.Cos(4 * Mathf.PI * i / (n - 1));
-            
+
 				windowed[i] = samples[i] * window;
 			}
-    
+
 			return windowed;
 		}
 
@@ -270,7 +291,7 @@ namespace Runtime.Synth
 			{
 				float magnitude = (float)spectrum[i].Magnitude;
 				float dB = 20 * Mathf.Log10(magnitude + 1e-6f);
-        
+
 				// Simple and correct normalization
 				float normalizedFreq = (float)i / maxUsefulBin;
 				float logFreq = Mathf.Log10(normalizedFreq * 9 + 1);

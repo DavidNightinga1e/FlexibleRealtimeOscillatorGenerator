@@ -16,6 +16,8 @@ namespace Runtime.Synth.Views
 		
 		private LfoSettings _settings;
 
+		private LfoInstance _instance;
+
 		public void SetSettings(LfoSettings settings)
 		{
 			_settings = settings;
