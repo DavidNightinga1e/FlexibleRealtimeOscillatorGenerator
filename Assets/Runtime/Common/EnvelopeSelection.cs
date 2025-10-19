@@ -1,4 +1,4 @@
-﻿namespace Runtime.Test
+﻿namespace Runtime.Common
 {
 	public enum EnvelopeSelection
 	{

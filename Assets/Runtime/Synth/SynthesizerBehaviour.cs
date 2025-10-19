@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using Runtime.Common;
 using Runtime.Synth.Views;
+using TMPro;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 using Vector2 = UnityEngine.Vector2;
 
 namespace Runtime.Synth
@@ -37,6 +40,7 @@ namespace Runtime.Synth
 
 		#endregion
 
+		[SerializeField] private TextMeshProUGUI timeText;
 		[SerializeField] private Keyboard keyboard;
 		[SerializeField] private EnvelopeSettingsView _ampSettingsView;
 		[SerializeField] private EnvelopeSettingsView _env1SettingsView;
@@ -62,6 +66,9 @@ namespace Runtime.Synth
 
 		private readonly Voice[] _voices = new Voice[(int)(Note.C8 + 1)];
 		private DelayInstance _delayInstance;
+
+		private Stopwatch _stopwatch = new();
+		private double _lastElapsed;
 
 		private void Start()
 		{
@@ -104,6 +111,8 @@ namespace Runtime.Synth
 			GenerateFrequencyPlot(_frequencyPlotSamples);
 
 			_frequencyPlotRenderer.Points = _frequencyPlotPositions;
+			
+			timeText.text = _lastElapsed.ToString("0000.00ms");
 		}
 
 		private void NoteOff(Note note)
@@ -145,6 +154,8 @@ namespace Runtime.Synth
 
 		private void OnAudioFilterRead(float[] data, int channels)
 		{
+			_stopwatch.Restart();
+			
 			int dataLength = data.Length / channels;
 
 			if (dataLength != _frequencyPlotSamples.Length)
@@ -172,6 +183,9 @@ namespace Runtime.Synth
 					_frequencyPlotWriteIndex %= _frequencyPlotSamples.Length;
 				}
 			}
+
+			_lastElapsed = _stopwatch.ElapsedMilliseconds;
+			_stopwatch.Stop();
 		}
 
 		private double ApplyEffects(double sample)

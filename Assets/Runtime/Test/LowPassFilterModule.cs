@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Runtime.Common;
+using UnityEngine;
 
 namespace Runtime.Test
 {
