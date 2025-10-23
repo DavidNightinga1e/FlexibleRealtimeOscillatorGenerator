@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Runtime.UI
 {
@@ -9,6 +10,7 @@ namespace Runtime.UI
 	{
 		[SerializeField] private TextMeshProUGUI valueText;
 		[SerializeField] private RectTransform knob;
+		[SerializeField] private Image valueFill;
 		[SerializeField] private float rotationMultiplier;
 		[Range(0, 1), SerializeField] private float valueDebug;
 
@@ -55,6 +57,7 @@ namespace Runtime.UI
 
 		private void SyncViewToState()
 		{
+			valueFill.fillAmount = Mathf.Lerp(0.1f, 0.9f, Value);
 			if (Value <= 0.5)
 			{
 				// [0, 1] -> [135, 0]

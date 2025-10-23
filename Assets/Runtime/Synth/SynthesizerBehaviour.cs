@@ -51,6 +51,7 @@ namespace Runtime.Synth
 		[SerializeField] private LfoSettingsView _lfo2SettingsView;
 		[SerializeField] private FilterSettingsView _filterSettingsView;
 		[SerializeField] private DelaySettingsView _delaySettingsView;
+		[SerializeField] private ReverbSettingsView _reverbSettingsView;
 
 		private readonly OscillatorSettings _osc1Settings = OscillatorSettings.CreateBasicSine();
 		private readonly OscillatorSettings _osc2Settings = OscillatorSettings.CreateDisabledBasicSquare();
@@ -61,11 +62,13 @@ namespace Runtime.Synth
 		private readonly EnvelopeSettings _env1Settings = EnvelopeSettings.CreateDefault();
 		private readonly EnvelopeSettings _env2Settings = EnvelopeSettings.CreateDefault();
 		private readonly DelaySettings _delaySettings = DelaySettings.CreateDefault();
+		private readonly ReverbSettings _reverbSettings = ReverbSettings.CreateDefault();
 
 		private int _sampleRate;
 
 		private readonly Voice[] _voices = new Voice[(int)(Note.C8 + 1)];
 		private DelayInstance _delayInstance;
+		private ReverbInstance _reverbInstance;
 
 		private Stopwatch _stopwatch = new();
 		private double _lastElapsed;
@@ -93,6 +96,7 @@ namespace Runtime.Synth
 			_filterSettingsView.SetSettings(_filterSettings);
 			
 			_delaySettingsView.SetSettings(_delaySettings);
+			_reverbSettingsView.SetSettings(_reverbSettings);
 		}
 
 		private void Update()
@@ -150,6 +154,7 @@ namespace Runtime.Synth
 		private void PrepareEffects()
 		{
 			_delayInstance = new DelayInstance(_sampleRate, _delaySettings);
+			_reverbInstance = new ReverbInstance(_sampleRate, _reverbSettings);
 		}
 
 		private void OnAudioFilterRead(float[] data, int channels)
@@ -191,7 +196,8 @@ namespace Runtime.Synth
 
 		private double ApplyEffects(double sample)
 		{
-			sample = _delayInstance.ProcessSample(sample); 
+			sample = _delayInstance.ProcessSample(sample);
+			sample = _reverbInstance.ProcessSample(sample);
 			return sample;
 		}
 
