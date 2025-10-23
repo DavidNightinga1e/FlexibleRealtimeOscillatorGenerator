@@ -50,6 +50,7 @@ namespace Runtime.Synth
 		[SerializeField] private LfoSettingsView _lfo1SettingsView;
 		[SerializeField] private LfoSettingsView _lfo2SettingsView;
 		[SerializeField] private FilterSettingsView _filterSettingsView;
+		[SerializeField] private DistortSettingsView _distortSettingsView;
 		[SerializeField] private DelaySettingsView _delaySettingsView;
 		[SerializeField] private ReverbSettingsView _reverbSettingsView;
 
@@ -61,12 +62,14 @@ namespace Runtime.Synth
 		private readonly EnvelopeSettings _ampSettings = EnvelopeSettings.CreateDefault();
 		private readonly EnvelopeSettings _env1Settings = EnvelopeSettings.CreateDefault();
 		private readonly EnvelopeSettings _env2Settings = EnvelopeSettings.CreateDefault();
+		private readonly DistortSettings _distortSettings = DistortSettings.CreateDefault();
 		private readonly DelaySettings _delaySettings = DelaySettings.CreateDefault();
 		private readonly ReverbSettings _reverbSettings = ReverbSettings.CreateDefault();
 
 		private int _sampleRate;
 
 		private readonly Voice[] _voices = new Voice[(int)(Note.C8 + 1)];
+		private DistortInstance _distortInstance;
 		private DelayInstance _delayInstance;
 		private ReverbInstance _reverbInstance;
 
@@ -95,6 +98,7 @@ namespace Runtime.Synth
 
 			_filterSettingsView.SetSettings(_filterSettings);
 			
+			_distortSettingsView.SetSettings(_distortSettings);
 			_delaySettingsView.SetSettings(_delaySettings);
 			_reverbSettingsView.SetSettings(_reverbSettings);
 		}
@@ -153,6 +157,7 @@ namespace Runtime.Synth
 
 		private void PrepareEffects()
 		{
+			_distortInstance = new DistortInstance(_sampleRate, _distortSettings);
 			_delayInstance = new DelayInstance(_sampleRate, _delaySettings);
 			_reverbInstance = new ReverbInstance(_sampleRate, _reverbSettings);
 		}
@@ -196,6 +201,7 @@ namespace Runtime.Synth
 
 		private double ApplyEffects(double sample)
 		{
+			sample = _distortInstance.ProcessSample(sample);
 			sample = _delayInstance.ProcessSample(sample);
 			sample = _reverbInstance.ProcessSample(sample);
 			return sample;
