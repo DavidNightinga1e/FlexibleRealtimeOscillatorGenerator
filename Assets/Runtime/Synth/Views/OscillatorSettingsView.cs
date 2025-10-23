@@ -15,6 +15,8 @@ namespace Runtime.Synth.Views
 		[SerializeField] private EnvelopeSelectionPresenter envelopeSelectionPresenter;
 		[SerializeField] private VibratoAmountPresenter vibratoAmountPresenter;
 		[SerializeField] private LfoSelectionPresenter vibratoLfoSelectionPresenter;
+		[SerializeField] private GainPresenter tremoloDepthPresenter;
+		[SerializeField] private LfoSelectionPresenter tremoloLfoSelectionPresenter;
 
 		private OscillatorSettings _settings;
 
@@ -29,6 +31,8 @@ namespace Runtime.Synth.Views
 			envelopeSelectionPresenter.SetValueWithoutNotify(_settings.EnvelopeSelection);
 			vibratoLfoSelectionPresenter.SetValueWithoutNotify(_settings.VibratoLfoSelection);
 			vibratoAmountPresenter.SetValueWithoutNotify(_settings.VibratoAmountSemitones);
+			tremoloDepthPresenter.SetValueWithoutNotify(_settings.TremoloDepth);
+			tremoloLfoSelectionPresenter.SetValueWithoutNotify(_settings.TremoloLfoSelection);
 		}
 
 		private void Awake()
@@ -40,6 +44,20 @@ namespace Runtime.Synth.Views
 			envelopeSelectionPresenter.ValueChanged += OnEnvelopeSelectionChanged;
 			vibratoLfoSelectionPresenter.ValueChanged += OnVibratoLfoSelectionChanged;
 			vibratoAmountPresenter.ValueChanged += OnVibratoAmountChanged;
+			tremoloDepthPresenter.ValueChanged += OnTremoloDepthValueChange;
+			tremoloLfoSelectionPresenter.ValueChanged += OnTremoloLfoSelectionChanged;
+		}
+
+		private void OnTremoloLfoSelectionChanged(LfoSelection obj)
+		{
+			_settings.TremoloLfoSelection = obj;
+			_settings.InvokeChanged();
+		}
+
+		private void OnTremoloDepthValueChange(double obj)
+		{
+			_settings.TremoloDepth = obj;
+			_settings.InvokeChanged();
 		}
 
 		private void OnVibratoAmountChanged(double obj)
@@ -93,6 +111,8 @@ namespace Runtime.Synth.Views
 			envelopeSelectionPresenter.ValueChanged -= OnEnvelopeSelectionChanged;
 			vibratoLfoSelectionPresenter.ValueChanged -= OnVibratoLfoSelectionChanged;
 			vibratoAmountPresenter.ValueChanged -= OnVibratoAmountChanged;
+			tremoloDepthPresenter.ValueChanged -= OnTremoloDepthValueChange;
+			tremoloLfoSelectionPresenter.ValueChanged -= OnTremoloLfoSelectionChanged;
 		}
 	}
 }

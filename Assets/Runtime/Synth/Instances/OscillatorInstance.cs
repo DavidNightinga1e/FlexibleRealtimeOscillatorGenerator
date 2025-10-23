@@ -1,6 +1,7 @@
 ﻿using System;
 using Runtime.Common;
 using Runtime.Test;
+using Runtime.UI;
 using UnityEngine;
 
 namespace Runtime.Synth
@@ -61,7 +62,21 @@ namespace Runtime.Synth
 			sample *= _settings.Gain;
 			sample *= envSample;
 			
+			sample = ApplyTremolo(sample, SelectorUtilities.SelectLfo(_lfo1, _lfo2, _settings.TremoloLfoSelection));
+			
 			Sample = sample;
+		}
+
+		private double ApplyTremolo(double sample, LfoInstance tremoloLfo)
+		{
+			if (tremoloLfo == null)
+				return sample;
+			
+			double lfoScaled = (tremoloLfo.Sample + 1.0) / 2.0;
+			double nonTremoloGain = 1.0 - _settings.TremoloDepth;
+			double tremoloGain = _settings.TremoloDepth * lfoScaled;
+			double gain = nonTremoloGain + tremoloGain;
+			return gain * sample;
 		}
 
 		private void UpdateVibrato(LfoInstance vibratoLfo)

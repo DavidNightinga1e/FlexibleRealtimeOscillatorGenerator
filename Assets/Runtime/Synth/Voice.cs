@@ -76,6 +76,8 @@ namespace Runtime.Synth
 
 		public void NoteOn()
 		{
+			_lfo1.NoteOn();
+			_lfo2.NoteOn();
 			_amp.NoteOn();
 			_env1.NoteOn();
 			_env2.NoteOn();

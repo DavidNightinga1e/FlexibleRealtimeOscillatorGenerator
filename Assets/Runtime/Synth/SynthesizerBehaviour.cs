@@ -55,7 +55,7 @@ namespace Runtime.Synth
 		[SerializeField] private ReverbSettingsView _reverbSettingsView;
 
 		private readonly OscillatorSettings _osc1Settings = OscillatorSettings.CreateBasicSine();
-		private readonly OscillatorSettings _osc2Settings = OscillatorSettings.CreateDisabledBasicSquare();
+		private readonly OscillatorSettings _osc2Settings = OscillatorSettings.CreateDisabledBasicSawtooth();
 		private readonly LfoSettings _lfo1Settings = LfoSettings.Create1HzSine();
 		private readonly LfoSettings _lfo2Settings = LfoSettings.Create4HzSquare();
 		private readonly FilterSettings _filterSettings = FilterSettings.CreateDefault();

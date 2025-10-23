@@ -15,6 +15,9 @@ namespace Runtime.Synth
 
 		public LfoSelection VibratoLfoSelection { get; set; }
 		public double VibratoAmountSemitones { get; set; }
+		
+		public LfoSelection TremoloLfoSelection { get; set; }
+		public double TremoloDepth { get; set; }
 
 		public static OscillatorSettings CreateBasicSine() => new()
 		{
@@ -24,18 +27,22 @@ namespace Runtime.Synth
 			Gain = 1,
 			EnvelopeSelection = EnvelopeSelection.Off,
 			VibratoLfoSelection = LfoSelection.Off,
-			VibratoAmountSemitones = 0
+			VibratoAmountSemitones = 0,
+			TremoloLfoSelection = LfoSelection.Off,
+			TremoloDepth = 0,
 		};
 
-		public static OscillatorSettings CreateDisabledBasicSquare() => new()
+		public static OscillatorSettings CreateDisabledBasicSawtooth() => new()
 		{
 			Enabled = false,
-			Waveform = Waveform.Square,
+			Waveform = Waveform.Sawtooth,
 			OctaveShift = 0,
 			Gain = 1,
 			EnvelopeSelection = EnvelopeSelection.Off,
 			VibratoLfoSelection = LfoSelection.Off,
-			VibratoAmountSemitones = 0
+			VibratoAmountSemitones = 0,
+			TremoloLfoSelection = LfoSelection.Off,
+			TremoloDepth = 0,
 		};
 	}
 }

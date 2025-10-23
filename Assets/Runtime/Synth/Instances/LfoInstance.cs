@@ -3,7 +3,7 @@ using Runtime.Common;
 
 namespace Runtime.Synth
 {
-	public class LfoInstance : ISampleProvider
+	public class LfoInstance : ISampleProvider, INoteHandler
 	{
 		private readonly int _sampleRate;
 		private readonly LfoSettings _settings;
@@ -48,6 +48,15 @@ namespace Runtime.Synth
 		private void UpdatePhaseIncrement()
 		{
 			_phaseIncrement = 2 * Math.PI * _settings.Frequency / _sampleRate;
+		}
+
+		public void NoteOn()
+		{
+			_phase = 0;
+		}
+
+		public void NoteOff()
+		{
 		}
 	}
 }
