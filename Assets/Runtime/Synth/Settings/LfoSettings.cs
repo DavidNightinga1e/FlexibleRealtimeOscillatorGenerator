@@ -1,13 +1,16 @@
-﻿using Runtime.Common;
+﻿using System;
+using Runtime.Common;
+using UnityEngine;
 
 namespace Runtime.Synth
 {
+	[Serializable]
 	public class LfoSettings : SettingsBase
 	{
-		public bool Enabled { get; set; }
-		public Waveform Waveform { get; set; }
-		public double Frequency { get; set; }
-		public double Gain { get; set; }
+		public bool Enabled;
+		public Waveform Waveform;
+		public double Frequency;
+		public double Gain;
 
 		public static LfoSettings Create1HzSine() => new()
 		{

@@ -46,8 +46,8 @@ namespace Runtime.Common
 			{KeyCode.Alpha0, 27}, // D#
 		};
 		
-		public event Action<Note> OnNotePressed; 
-		public event Action<Note> OnNoteReleased;
+		public event Action<Note> NoteOn; 
+		public event Action<Note> NoteOff;
 
 		public Note baseNote;
 
@@ -60,12 +60,12 @@ namespace Runtime.Common
 			{
 				if (Input.GetKeyDown(pair.Key))
 				{
-					OnNotePressed?.Invoke((Note)((int)baseNote + pair.Value));
+					NoteOn?.Invoke((Note)((int)baseNote + pair.Value));
 				}
 
 				if (Input.GetKeyUp(pair.Key))
 				{
-					OnNoteReleased?.Invoke((Note)((int)baseNote + pair.Value));
+					NoteOff?.Invoke((Note)((int)baseNote + pair.Value));
 				}
 			}
 

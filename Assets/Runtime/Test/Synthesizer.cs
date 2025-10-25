@@ -25,17 +25,17 @@ namespace Runtime.Test
 		private void Start()
 		{
 			_sampleRate = AudioSettings.outputSampleRate;
-			_keyboard.OnNotePressed += OnNotePressed;
-			_keyboard.OnNoteReleased += OnNoteReleased;
+			_keyboard.NoteOn += NoteOn;
+			_keyboard.NoteOff += NoteOff;
 		}
 
-		private void OnNoteReleased(Note note)
+		private void NoteOff(Note note)
 		{
 			Voice voice = _activeVoices[note];
 			voice.Release();
 		}
 
-		private void OnNotePressed(Note note)
+		private void NoteOn(Note note)
 		{
 			if (_activeVoices.ContainsKey(note))
 			{
@@ -99,8 +99,8 @@ namespace Runtime.Test
 
 		private void OnDestroy()
 		{
-			_keyboard.OnNotePressed -= OnNotePressed;
-			_keyboard.OnNoteReleased -= OnNoteReleased;
+			_keyboard.NoteOn -= NoteOn;
+			_keyboard.NoteOff -= NoteOff;
 		}
 	}
 }

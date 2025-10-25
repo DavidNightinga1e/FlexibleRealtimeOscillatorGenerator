@@ -1,10 +1,14 @@
-﻿namespace Runtime.Synth
+﻿using System;
+using UnityEngine;
+
+namespace Runtime.Synth
 {
+	[Serializable]
 	public class ReverbSettings : SettingsBase
 	{
-		public bool Enabled { get; set; }
-		public double DecayTime { get; set; }
-		public double Mix { get; set; }
+		public bool Enabled;
+		public double DecayTime;
+		public double Mix;
 		
 		public const double MaxDecayTime = 2.0;
 

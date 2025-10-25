@@ -1,17 +1,33 @@
-﻿namespace Runtime.Synth
+﻿using System;
+using Runtime.Synth.Presets;
+using UnityEngine;
+
+namespace Runtime.Synth
 {
+	[Serializable]
 	public class SynthesizerPreset
 	{
-		public OscillatorSettings Osc1Settings { get; set; }
-		public OscillatorSettings Osc2Settings { get; set; }
-		public LfoSettings Lfo1Settings { get; set; }
-		public LfoSettings Lfo2Settings { get; set; }
-		public FilterSettings FilterSettings { get; set; }
-		public EnvelopeSettings AmpSettings { get; set; }
-		public EnvelopeSettings Env1Settings { get; set; }
-		public EnvelopeSettings Env2Settings { get; set; }
-		public DistortSettings DistortSettings { get; set; }
-		public DelaySettings DelaySettings { get; set; }
-		public ReverbSettings ReverbSettings { get; set; }
+		public PresetJsonHeader Header;
+		public OscillatorSettings Osc1Settings;
+		public OscillatorSettings Osc2Settings;
+		public LfoSettings Lfo1Settings;
+		public LfoSettings Lfo2Settings;
+		public FilterSettings FilterSettings;
+		public EnvelopeSettings AmpSettings;
+		public EnvelopeSettings Env1Settings;
+		public EnvelopeSettings Env2Settings;
+		public DistortSettings DistortSettings;
+		public DelaySettings DelaySettings;
+		public ReverbSettings ReverbSettings;
+
+		public static SynthesizerPreset FromJson(string json)
+		{
+			return JsonUtility.FromJson<SynthesizerPreset>(json);
+		}
+
+		public string ToJson()
+		{
+			return JsonUtility.ToJson(this, true);
+		}
 	}
 }

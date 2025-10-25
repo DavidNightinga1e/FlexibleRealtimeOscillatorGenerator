@@ -1,25 +1,27 @@
-﻿using Runtime.Common;
-using Runtime.Test;
+﻿using System;
+using Runtime.Common;
+using UnityEngine;
 
 namespace Runtime.Synth
 {
+	[Serializable]
 	public class FilterSettings : SettingsBase
 	{
-		public bool Enabled { get; set; }
+		public bool Enabled;
 
-		public FilterType FilterType { get; set; }
+		public FilterType FilterType;
 		
-		public double Gain { get; set; }
-		public double CutoffFrequency { get; set; }
-		public double QFactor { get; set; }
+		public double Gain;
+		public double CutoffFrequency;
+		public double QFactor;
 
-		public double KeyTracking { get; set; }
+		public double KeyTracking;
 
-		public LfoSelection LfoSelection { get; set; }
-		public double LfoAmount { get; set; }
+		public LfoSelection LfoSelection;
+		public double LfoAmount;
 
-		public EnvelopeSelection EnvelopeSelection { get; set; }
-		public double EnvelopeAmount { get; set; }
+		public EnvelopeSelection EnvelopeSelection;
+		public double EnvelopeAmount;
 
 		public static FilterSettings CreateDefault() => new()
 		{

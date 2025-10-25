@@ -1,11 +1,15 @@
-﻿namespace Runtime.Synth
+﻿using System;
+using UnityEngine;
+
+namespace Runtime.Synth
 {
+	[Serializable]
 	public class EnvelopeSettings : SettingsBase
 	{
-		public double AttackDuration { get; set; }
-		public double DecayDuration { get; set; }
-		public double SustainValue { get; set; }
-		public double ReleaseDuration { get; set; }
+		public double AttackDuration;
+		public double DecayDuration;
+		public double SustainValue;
+		public double ReleaseDuration;
 
 		public static EnvelopeSettings CreateDefault() => new()
 		{

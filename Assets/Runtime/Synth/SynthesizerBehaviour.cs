@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using Runtime.Common;
+using Runtime.Synth.Presets;
 using Runtime.Synth.Views;
 using TMPro;
 using UnityEngine;
@@ -53,18 +54,9 @@ namespace Runtime.Synth
 		[SerializeField] private DistortSettingsView _distortSettingsView;
 		[SerializeField] private DelaySettingsView _delaySettingsView;
 		[SerializeField] private ReverbSettingsView _reverbSettingsView;
-
-		private readonly OscillatorSettings _osc1Settings = OscillatorSettings.CreateBasicSine();
-		private readonly OscillatorSettings _osc2Settings = OscillatorSettings.CreateDisabledBasicSawtooth();
-		private readonly LfoSettings _lfo1Settings = LfoSettings.Create1HzSine();
-		private readonly LfoSettings _lfo2Settings = LfoSettings.Create4HzSquare();
-		private readonly FilterSettings _filterSettings = FilterSettings.CreateDefault();
-		private readonly EnvelopeSettings _ampSettings = EnvelopeSettings.CreateDefault();
-		private readonly EnvelopeSettings _env1Settings = EnvelopeSettings.CreateDefault();
-		private readonly EnvelopeSettings _env2Settings = EnvelopeSettings.CreateDefault();
-		private readonly DistortSettings _distortSettings = DistortSettings.CreateDefault();
-		private readonly DelaySettings _delaySettings = DelaySettings.CreateDefault();
-		private readonly ReverbSettings _reverbSettings = ReverbSettings.CreateDefault();
+		[SerializeField] private PresetsView _presetsView;
+		
+		private SynthesizerPreset _preset = BuiltInPresets.CreateDefault();
 
 		private int _sampleRate;
 
@@ -76,31 +68,53 @@ namespace Runtime.Synth
 		private Stopwatch _stopwatch = new();
 		private double _lastElapsed;
 
-		private void Start()
+		private void Awake()
 		{
-			_sampleRate = AudioSettings.outputSampleRate;
-
-			PrepareVoices();
-			PrepareEffects();
-
-			keyboard.OnNotePressed += NoteOn;
-			keyboard.OnNoteReleased += NoteOff;
-
-			_ampSettingsView.SetSettings(_ampSettings);
-			_env1SettingsView.SetSettings(_env1Settings);
-			_env2SettingsView.SetSettings(_env2Settings);
-
-			_lfo1SettingsView.SetSettings(_lfo1Settings);
-			_lfo2SettingsView.SetSettings(_lfo2Settings);
-
-			_osc1SettingsView.SetSettings(_osc1Settings);
-			_osc2SettingsView.SetSettings(_osc2Settings);
-
-			_filterSettingsView.SetSettings(_filterSettings);
+			_presetsView.OnPresetChanged += OnPresetChanged;
 			
-			_distortSettingsView.SetSettings(_distortSettings);
-			_delaySettingsView.SetSettings(_delaySettings);
-			_reverbSettingsView.SetSettings(_reverbSettings);
+			keyboard.NoteOn += NoteOn;
+			keyboard.NoteOff += NoteOff;
+			
+			_sampleRate = AudioSettings.outputSampleRate;
+		}
+
+		private void OnPresetChanged()
+		{
+			_preset = _presetsView.ActivePreset;
+			OnPresetLoaded();
+		}
+
+		private void OnPresetLoaded()
+		{
+			PrepareSettings();
+			
+			PrepareVoices();
+			PrepareEffects();			
+		}
+
+		private void OnDestroy()
+		{
+			keyboard.NoteOn -= NoteOn;
+			keyboard.NoteOff -= NoteOff;
+		}
+
+		private void PrepareSettings()
+		{
+			_ampSettingsView.SetSettings(_preset.AmpSettings);
+			_env1SettingsView.SetSettings(_preset.Env1Settings);
+			_env2SettingsView.SetSettings(_preset.Env2Settings);
+
+			_lfo1SettingsView.SetSettings(_preset.Lfo1Settings);
+			_lfo2SettingsView.SetSettings(_preset.Lfo2Settings);
+
+			_osc1SettingsView.SetSettings(_preset.Osc1Settings);
+			_osc2SettingsView.SetSettings(_preset.Osc2Settings);
+
+			_filterSettingsView.SetSettings(_preset.FilterSettings);
+			
+			_distortSettingsView.SetSettings(_preset.DistortSettings);
+			_delaySettingsView.SetSettings(_preset.DelaySettings);
+			_reverbSettingsView.SetSettings(_preset.ReverbSettings);
 		}
 
 		private void Update()
@@ -143,27 +157,30 @@ namespace Runtime.Synth
 				(
 					_sampleRate,
 					NoteToFrequency.GetFrequency((Note)i),
-					_osc1Settings,
-					_osc2Settings,
-					_lfo1Settings,
-					_lfo2Settings,
-					_filterSettings,
-					_ampSettings,
-					_env1Settings,
-					_env2Settings
+					_preset.Osc1Settings,
+					_preset.Osc2Settings,
+					_preset.Lfo1Settings,
+					_preset.Lfo2Settings,
+					_preset.FilterSettings,
+					_preset.AmpSettings,
+					_preset.Env1Settings,
+					_preset.Env2Settings
 				);
 			}
 		}
 
 		private void PrepareEffects()
 		{
-			_distortInstance = new DistortInstance(_sampleRate, _distortSettings);
-			_delayInstance = new DelayInstance(_sampleRate, _delaySettings);
-			_reverbInstance = new ReverbInstance(_sampleRate, _reverbSettings);
+			_distortInstance = new DistortInstance(_sampleRate, _preset.DistortSettings);
+			_delayInstance = new DelayInstance(_sampleRate, _preset.DelaySettings);
+			_reverbInstance = new ReverbInstance(_sampleRate, _preset.ReverbSettings);
 		}
 
 		private void OnAudioFilterRead(float[] data, int channels)
 		{
+			if (_preset is null)
+				return;
+			
 			_stopwatch.Restart();
 			
 			int dataLength = data.Length / channels;

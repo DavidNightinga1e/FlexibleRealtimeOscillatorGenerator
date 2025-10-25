@@ -1,11 +1,15 @@
-﻿namespace Runtime.Synth
+﻿using System;
+using UnityEngine;
+
+namespace Runtime.Synth
 {
+	[Serializable]
 	public class DelaySettings : SettingsBase
 	{
-		public bool Enabled { get; set; }
-		public double DelayTime { get; set; }
-		public double Feedback { get; set; }
-		public double Mix { get; set; }
+		public bool Enabled;
+		public double DelayTime;
+		public double Feedback;
+		public double Mix;
 
 		public static DelaySettings CreateDefault() => new()
 		{

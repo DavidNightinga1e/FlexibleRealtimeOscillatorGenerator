@@ -1,23 +1,25 @@
-﻿using Runtime.Common;
-using Runtime.Test;
+﻿using System;
+using Runtime.Common;
+using UnityEngine;
 
 namespace Runtime.Synth
 {
+	[Serializable]
 	public class OscillatorSettings : SettingsBase
 	{
-		public bool Enabled { get; set; }
+		public bool Enabled;
 
-		public Waveform Waveform { get; set; }
-		public int OctaveShift { get; set; }
-		public double Gain { get; set; }
+		public Waveform Waveform;
+		public int OctaveShift;
+		public double Gain;
 
-		public EnvelopeSelection EnvelopeSelection { get; set; }
+		public EnvelopeSelection EnvelopeSelection;
 
-		public LfoSelection VibratoLfoSelection { get; set; }
-		public double VibratoAmountSemitones { get; set; }
+		public LfoSelection VibratoLfoSelection;
+		public double VibratoAmountSemitones;
 		
-		public LfoSelection TremoloLfoSelection { get; set; }
-		public double TremoloDepth { get; set; }
+		public LfoSelection TremoloLfoSelection;
+		public double TremoloDepth;
 
 		public static OscillatorSettings CreateBasicSine() => new()
 		{

@@ -1,0 +1,84 @@
+{
+    "Header": {
+        "Info": "FlexibleRealtimeOscillatorGenerator Preset File",
+        "Version": "1.0"
+    },
+    "Osc1Settings": {
+        "Enabled": true,
+        "Waveform": 0,
+        "OctaveShift": 0,
+        "Gain": 1.0,
+        "EnvelopeSelection": 0,
+        "VibratoLfoSelection": 0,
+        "VibratoAmountSemitones": 0.0,
+        "TremoloLfoSelection": 0,
+        "TremoloDepth": 0.0
+    },
+    "Osc2Settings": {
+        "Enabled": true,
+        "Waveform": 2,
+        "OctaveShift": 0,
+        "Gain": 1.0,
+        "EnvelopeSelection": 0,
+        "VibratoLfoSelection": 0,
+        "VibratoAmountSemitones": 0.0,
+        "TremoloLfoSelection": 0,
+        "TremoloDepth": 0.0
+    },
+    "Lfo1Settings": {
+        "Enabled": true,
+        "Waveform": 0,
+        "Frequency": 1.0,
+        "Gain": 1.0
+    },
+    "Lfo2Settings": {
+        "Enabled": true,
+        "Waveform": 3,
+        "Frequency": 4.0,
+        "Gain": 1.0
+    },
+    "FilterSettings": {
+        "Enabled": true,
+        "FilterType": 0,
+        "Gain": 1.0,
+        "CutoffFrequency": 400.0,
+        "QFactor": 0.9,
+        "KeyTracking": 1.0,
+        "LfoSelection": 0,
+        "LfoAmount": 0.0,
+        "EnvelopeSelection": 0,
+        "EnvelopeAmount": 0.0
+    },
+    "AmpSettings": {
+        "AttackDuration": 0.1,
+        "DecayDuration": 0.1,
+        "SustainValue": 0.8,
+        "ReleaseDuration": 0.2
+    },
+    "Env1Settings": {
+        "AttackDuration": 0.1,
+        "DecayDuration": 0.1,
+        "SustainValue": 0.8,
+        "ReleaseDuration": 0.2
+    },
+    "Env2Settings": {
+        "AttackDuration": 0.1,
+        "DecayDuration": 0.1,
+        "SustainValue": 0.8,
+        "ReleaseDuration": 0.2
+    },
+    "DistortSettings": {
+        "Enabled": false
+    },
+    "DelaySettings": {
+        "Enabled": false,
+        "DelayTime": 0.2,
+        "Feedback": 0.6,
+        "Mix": 0.5
+    },
+    "ReverbSettings": {
+        "Enabled": false,
+        "DecayTime": 0.2,
+        "Mix": 0.5
+    }
+}

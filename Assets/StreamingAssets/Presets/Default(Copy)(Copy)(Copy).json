@@ -1,0 +1,84 @@
+{
+    "Header": {
+        "Info": "FlexibleRealtimeOscillatorGenerator Preset File",
+        "Version": "1.0"
+    },
+    "Osc1Settings": {
+        "Enabled": true,
+        "Waveform": 1,
+        "OctaveShift": 0,
+        "Gain": 0.9738814830780029,
+        "EnvelopeSelection": 0,
+        "VibratoLfoSelection": 0,
+        "VibratoAmountSemitones": 0.0,
+        "TremoloLfoSelection": 0,
+        "TremoloDepth": 0.0
+    },
+    "Osc2Settings": {
+        "Enabled": true,
+        "Waveform": 2,
+        "OctaveShift": 0,
+        "Gain": 0.2595404386520386,
+        "EnvelopeSelection": 1,
+        "VibratoLfoSelection": 0,
+        "VibratoAmountSemitones": 0.0,
+        "TremoloLfoSelection": 0,
+        "TremoloDepth": 0.0
+    },
+    "Lfo1Settings": {
+        "Enabled": true,
+        "Waveform": 0,
+        "Frequency": 0.7958828809109438,
+        "Gain": 1.0
+    },
+    "Lfo2Settings": {
+        "Enabled": false,
+        "Waveform": 3,
+        "Frequency": 4.0,
+        "Gain": 1.0
+    },
+    "FilterSettings": {
+        "Enabled": true,
+        "FilterType": 1,
+        "Gain": 1.0,
+        "CutoffFrequency": 353.41635137683126,
+        "QFactor": 0.6578476428985596,
+        "KeyTracking": 1.0,
+        "LfoSelection": 1,
+        "LfoAmount": 0.07835553586483002,
+        "EnvelopeSelection": 0,
+        "EnvelopeAmount": 0.0
+    },
+    "AmpSettings": {
+        "AttackDuration": 0.009999999776482582,
+        "DecayDuration": 0.20764197409152986,
+        "SustainValue": 0.0,
+        "ReleaseDuration": 0.02847970649600029
+    },
+    "Env1Settings": {
+        "AttackDuration": 0.009999999776482582,
+        "DecayDuration": 0.1057799682021141,
+        "SustainValue": 0.0,
+        "ReleaseDuration": 0.009999999776482582
+    },
+    "Env2Settings": {
+        "AttackDuration": 0.1,
+        "DecayDuration": 0.1,
+        "SustainValue": 0.8,
+        "ReleaseDuration": 0.2
+    },
+    "DistortSettings": {
+        "Enabled": false
+    },
+    "DelaySettings": {
+        "Enabled": true,
+        "DelayTime": 0.2,
+        "Feedback": 0.6796614527702332,
+        "Mix": 0.2009430229663849
+    },
+    "ReverbSettings": {
+        "Enabled": true,
+        "DecayTime": 0.011442347429692746,
+        "Mix": 0.5
+    }
+}
