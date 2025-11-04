@@ -74,20 +74,20 @@ namespace Runtime.Synth
 			_osc2 = new OscillatorInstance(_sampleRate, _baseFrequency, _osc2Settings, _lfo1, _lfo2, _env1, _env2);
 		}
 
-		public void NoteOn()
+		public void NoteDown()
 		{
-			_lfo1.NoteOn();
-			_lfo2.NoteOn();
-			_amp.NoteOn();
-			_env1.NoteOn();
-			_env2.NoteOn();
+			_lfo1.NoteDown();
+			_lfo2.NoteDown();
+			_amp.NoteDown();
+			_env1.NoteDown();
+			_env2.NoteDown();
 		}
 
-		public void NoteOff()
+		public void NoteUp()
 		{
-			_amp.NoteOff();
-			_env1.NoteOff();
-			_env2.NoteOff();
+			_amp.NoteUp();
+			_env1.NoteUp();
+			_env2.NoteUp();
 		}
 
 		public void UpdateSample()

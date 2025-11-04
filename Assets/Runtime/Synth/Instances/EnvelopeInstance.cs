@@ -26,7 +26,7 @@ namespace Runtime.Synth
 			_settings = settings;
 		}
 
-		public void NoteOn()
+		public void NoteDown()
 		{
 			State = EnvelopeState.Attack;
 
@@ -34,7 +34,7 @@ namespace Runtime.Synth
 			_decayRate = (1 - _settings.SustainValue) / (_settings.DecayDuration * _sampleRate);
 		}
 
-		public void NoteOff()
+		public void NoteUp()
 		{
 			State = EnvelopeState.Release;
 

@@ -119,12 +119,12 @@ namespace Runtime.Synth
 				_phase -= 2 * Math.PI;
 		}
 
-		public void NoteOn()
+		public void NoteDown()
 		{
 			_phase = 0;
 		}
 
-		public void NoteOff()
+		public void NoteUp()
 		{
 		}
 	}

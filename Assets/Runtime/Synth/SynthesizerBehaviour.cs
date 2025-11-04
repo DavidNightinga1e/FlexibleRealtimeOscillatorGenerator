@@ -72,8 +72,8 @@ namespace Runtime.Synth
 		{
 			_presetsView.OnPresetChanged += OnPresetChanged;
 			
-			keyboard.NoteOn += NoteOn;
-			keyboard.NoteOff += NoteOff;
+			keyboard.NoteDownEvent += OnNoteDown;
+			keyboard.NoteUpEvent += OnNoteUp;
 			
 			_sampleRate = AudioSettings.outputSampleRate;
 		}
@@ -94,8 +94,8 @@ namespace Runtime.Synth
 
 		private void OnDestroy()
 		{
-			keyboard.NoteOn -= NoteOn;
-			keyboard.NoteOff -= NoteOff;
+			keyboard.NoteDownEvent -= OnNoteDown;
+			keyboard.NoteUpEvent -= OnNoteUp;
 		}
 
 		private void PrepareSettings()
@@ -137,16 +137,16 @@ namespace Runtime.Synth
 			timeText.text = _lastElapsed.ToString("00.00ms");
 		}
 
-		private void NoteOff(Note note)
+		private void OnNoteUp(Note note)
 		{
 			var i = (int)note;
-			_voices[i].NoteOff();
+			_voices[i].NoteUp();
 		}
 
-		private void NoteOn(Note note)
+		private void OnNoteDown(Note note)
 		{
 			var i = (int)note;
-			_voices[i].NoteOn();
+			_voices[i].NoteDown();
 		}
 
 		private void PrepareVoices()

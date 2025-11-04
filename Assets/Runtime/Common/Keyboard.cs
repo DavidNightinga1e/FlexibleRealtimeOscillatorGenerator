@@ -1,85 +1,148 @@
 ﻿using System;
 using System.Collections.Generic;
+using Runtime.UI.Keyboard;
 using UnityEngine;
 
 namespace Runtime.Common
 {
 	public class Keyboard : MonoBehaviour
 	{
-		private static readonly Dictionary<KeyCode, int> _keyboardNoteOffset = new()
+		[SerializeField] private OctaveView firstOctaveView;
+		[SerializeField] private OctaveView secondOctaveView;
+
+		public event Action<Note> NoteDownEvent;
+		public event Action<Note> NoteUpEvent;
+
+		public Note baseNote = Note.C3;
+		public int SelectedOctave = 2;
+
+		private HashSet<Note> _heldNotes = new();
+
+		private void Awake()
 		{
-			// Первый ряд (нижний) - белые клавиши: Z X C V B N M
-			{KeyCode.Z, 0},  // C
-			{KeyCode.X, 2},  // D
-			{KeyCode.C, 4},  // E
-			{KeyCode.V, 5},  // F
-			{KeyCode.B, 7},  // G
-			{KeyCode.N, 9},  // A
-			{KeyCode.M, 11}, // B
-    
-			// Первый ряд (нижний) - черные клавиши: S D G H J
-			{KeyCode.S, 1},  // C#
-			{KeyCode.D, 3},  // D#
-			{KeyCode.G, 6},  // F#
-			{KeyCode.H, 8},  // G#
-			{KeyCode.J, 10}, // A#
-    
-			// Второй ряд (верхний) - белые клавиши: Q W E R T Y U I O P
-			{KeyCode.Q, 12}, // C (октавой выше)
-			{KeyCode.W, 14}, // D
-			{KeyCode.E, 16}, // E
-			{KeyCode.R, 17}, // F
-			{KeyCode.T, 19}, // G
-			{KeyCode.Y, 21}, // A
-			{KeyCode.U, 23}, // B
-			{KeyCode.I, 24}, // C (еще октавой выше)
-			{KeyCode.O, 26}, // D
-			{KeyCode.P, 28}, // E
-    
-			// Второй ряд (верхний) - черные клавиши: 2 3 5 6 7 9 0
-			{KeyCode.Alpha2, 13}, // C#
-			{KeyCode.Alpha3, 15}, // D#
-			{KeyCode.Alpha5, 18}, // F#
-			{KeyCode.Alpha6, 20}, // G#
-			{KeyCode.Alpha7, 22}, // A#
-			{KeyCode.Alpha9, 25}, // C# (октавой выше)
-			{KeyCode.Alpha0, 27}, // D#
-		};
-		
-		public event Action<Note> NoteOn; 
-		public event Action<Note> NoteOff;
+			firstOctaveView.NoteDownRequestEvent += OnFirstOctaveNoteDownRequest;
+			secondOctaveView.NoteDownRequestEvent += OnSecondOctaveNoteDownRequest;
+			firstOctaveView.NoteUpRequestEvent += OnFirstOctaveNoteUpRequest;
+			secondOctaveView.NoteUpRequestEvent += OnSecondOctaveNoteUpRequest;
+		}
 
-		public Note baseNote;
+		private void OnFirstOctaveNoteDownRequest(LocalNote obj)
+		{
+			Note note = NoteUtilities.LocalToNote(SelectedOctave, obj);
+			RequestNoteDown(note);
+		}
 
-		private const int BaseNoteOffsetUp = 12;
-		private const int BaseNoteOffsetDown = -BaseNoteOffsetUp;
+		private void OnFirstOctaveNoteUpRequest(LocalNote obj)
+		{
+			Note note = NoteUtilities.LocalToNote(SelectedOctave, obj);
+			RequestNoteUp(note);
+		}
+
+		private void OnSecondOctaveNoteDownRequest(LocalNote obj)
+		{
+			Note note = NoteUtilities.LocalToNote(SelectedOctave + 1, obj);
+			RequestNoteDown(note);
+		}
+
+		private void OnSecondOctaveNoteUpRequest(LocalNote obj)
+		{
+			Note note = NoteUtilities.LocalToNote(SelectedOctave + 1, obj);
+			RequestNoteUp(note);
+		}
+
+		private void RequestNoteUp(Note obj)
+		{
+			if (!_heldNotes.Contains(obj))
+				return;
+			
+			SetNoteUp(obj);
+			RaiseNoteUp(obj);
+		}
+
+		private void RequestNoteDown(Note obj)
+		{
+			if (_heldNotes.Contains(obj))
+				return;
+
+			SetNoteDown(obj);
+			RaiseNoteDown(obj);
+		}
+
+		private void SetNoteUp(Note obj)
+		{
+			_heldNotes.Remove(obj);
+
+			OctaveView octaveView = SelectOctaveViewByNote(obj);
+			octaveView.SetNoteUp(NoteUtilities.NoteToLocalNote(obj));
+		}
+
+		private void SetNoteDown(Note obj)
+		{
+			_heldNotes.Add(obj);
+
+			OctaveView octaveView = SelectOctaveViewByNote(obj);
+			octaveView.SetNoteDown(NoteUtilities.NoteToLocalNote(obj));
+		}
+
+		private OctaveView SelectOctaveViewByNote(Note note)
+		{
+			int octave = NoteUtilities.GetOctave(note);
+			int octaveFromBase = octave - SelectedOctave;
+
+			return octaveFromBase switch
+			{
+				0 => firstOctaveView,
+				1 => secondOctaveView,
+				_ => throw new ArgumentOutOfRangeException
+				(
+					$"Note {note} was not in range of currently selected octaves " +
+					$"{SelectedOctave}, {SelectedOctave + 1}"
+				)
+			};
+		}
+
+		private Note TransposeFromBaseNote(Note note, int additionalOffset = 0)
+		{
+			return baseNote + (int)note + additionalOffset;
+		}
 
 		private void Update()
 		{
-			foreach (var pair in _keyboardNoteOffset)
+			foreach (var pair in KeyboardInputUtility.GetKeyboardNoteOffsetPairs())
 			{
 				if (Input.GetKeyDown(pair.Key))
 				{
-					NoteOn?.Invoke((Note)((int)baseNote + pair.Value));
+					RequestNoteDown(TransposeFromBaseNote((Note)pair.Value));
 				}
 
 				if (Input.GetKeyUp(pair.Key))
 				{
-					NoteOff?.Invoke((Note)((int)baseNote + pair.Value));
+					RequestNoteUp(TransposeFromBaseNote((Note)pair.Value));
 				}
 			}
 
-			if (Input.GetKeyDown(KeyCode.Equals)) 
-				OffsetBaseNoteClamped(BaseNoteOffsetUp);
+			if (Input.GetKeyDown(KeyCode.Equals))
+				OffsetSelectedOctave(+1);
 			if (Input.GetKeyDown(KeyCode.Minus))
-				OffsetBaseNoteClamped(BaseNoteOffsetDown);
+				OffsetSelectedOctave(-1);
 		}
 
-		private void OffsetBaseNoteClamped(int offset)
+		private void OffsetSelectedOctave(int direction)
 		{
-			int newBaseNoteInt = (int)baseNote + offset;
-			newBaseNoteInt = Math.Clamp(newBaseNoteInt, (int)Note.LowestBaseNote, (int)Note.TopBaseNote);
-			baseNote = (Note)newBaseNoteInt;
+			SelectedOctave += direction;
+			SelectedOctave = Math.Clamp(SelectedOctave, 0, 5); // todo consts
+			baseNote = NoteUtilities.LocalToNote(SelectedOctave, LocalNote.C);
 		}
+
+		private void OnDestroy()
+		{
+			firstOctaveView.NoteDownRequestEvent -= OnFirstOctaveNoteDownRequest;
+			secondOctaveView.NoteDownRequestEvent -= OnSecondOctaveNoteDownRequest;
+			firstOctaveView.NoteUpRequestEvent -= OnFirstOctaveNoteUpRequest;
+			secondOctaveView.NoteUpRequestEvent -= OnSecondOctaveNoteUpRequest;
+		}
+
+		private void RaiseNoteDown(Note obj) => NoteDownEvent?.Invoke(obj);
+		private void RaiseNoteUp(Note obj) => NoteUpEvent?.Invoke(obj);
 	}
 }

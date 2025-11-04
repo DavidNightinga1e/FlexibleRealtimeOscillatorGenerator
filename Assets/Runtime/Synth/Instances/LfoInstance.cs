@@ -50,12 +50,12 @@ namespace Runtime.Synth
 			_phaseIncrement = 2 * Math.PI * _settings.Frequency / _sampleRate;
 		}
 
-		public void NoteOn()
+		public void NoteDown()
 		{
 			_phase = 0;
 		}
 
-		public void NoteOff()
+		public void NoteUp()
 		{
 		}
 	}
