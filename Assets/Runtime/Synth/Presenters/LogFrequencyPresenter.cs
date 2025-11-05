@@ -25,7 +25,7 @@ namespace Runtime.Synth.Presenters
 		private void OnValueChanged(float knobValue)
 		{
 			double frequency = KnobToFrequency(knobValue);
-			InvokeValueChanged(frequency);
+			RaiseValueChanged(frequency);
 			UpdateKnobText(frequency);
 		}
 

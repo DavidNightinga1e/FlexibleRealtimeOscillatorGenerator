@@ -16,7 +16,7 @@ namespace Runtime.Synth.Presenters
 
 		private void OnValueChanged(int obj)
 		{
-			InvokeValueChanged((FilterType)obj);
+			RaiseValueChanged((FilterType)obj);
 		}
 
 		public override void SetValueWithoutNotify(FilterType value)

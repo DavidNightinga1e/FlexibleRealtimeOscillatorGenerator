@@ -35,7 +35,7 @@ namespace Runtime.Synth.Presenters
 		private void OnValueChanged(float knobValue)
 		{
 			double delay = KnobToDelay(knobValue);
-			InvokeValueChanged(delay);
+			RaiseValueChanged(delay);
 			UpdateText(delay);
 		}
 

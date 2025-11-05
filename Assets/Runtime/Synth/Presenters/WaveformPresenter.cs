@@ -16,7 +16,7 @@ namespace Runtime.Synth.Presenters
 
 		private void OnValueChanged(int obj)
 		{
-			InvokeValueChanged((Waveform)obj);
+			RaiseValueChanged((Waveform)obj);
 		}
 
 		public override void SetValueWithoutNotify(Waveform waveform)

@@ -11,7 +11,7 @@ namespace Runtime.Synth.Presenters
 		{
 		}
 
-		protected void InvokeValueChanged(T value)
+		protected void RaiseValueChanged(T value)
 		{
 			ValueChanged?.Invoke(value);
 		}

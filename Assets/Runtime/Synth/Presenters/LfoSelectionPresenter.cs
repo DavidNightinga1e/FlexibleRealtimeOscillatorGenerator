@@ -17,7 +17,7 @@ namespace Runtime.Synth.Presenters
 
 		private void OnValueChanged(int obj)
 		{
-			InvokeValueChanged((LfoSelection)obj);
+			RaiseValueChanged((LfoSelection)obj);
 		}
 
 		public override void SetValueWithoutNotify(LfoSelection value)

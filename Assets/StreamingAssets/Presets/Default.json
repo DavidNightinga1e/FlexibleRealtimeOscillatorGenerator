@@ -6,7 +6,7 @@
     "Osc1Settings": {
         "Enabled": true,
         "Waveform": 0,
-        "OctaveShift": 0,
+        "OctaveShift": -2,
         "Gain": 1.0,
         "EnvelopeSelection": 0,
         "VibratoLfoSelection": 0,
@@ -16,8 +16,8 @@
     },
     "Osc2Settings": {
         "Enabled": false,
-        "Waveform": 2,
-        "OctaveShift": 0,
+        "Waveform": 0,
+        "OctaveShift": -2,
         "Gain": 1.0,
         "EnvelopeSelection": 0,
         "VibratoLfoSelection": 0,
@@ -28,21 +28,21 @@
     "Lfo1Settings": {
         "Enabled": false,
         "Waveform": 0,
-        "Frequency": 1.0,
+        "Frequency": 20.000000000000005,
         "Gain": 1.0
     },
     "Lfo2Settings": {
         "Enabled": false,
-        "Waveform": 3,
-        "Frequency": 4.0,
+        "Waveform": 0,
+        "Frequency": 20.000000000000005,
         "Gain": 1.0
     },
     "FilterSettings": {
         "Enabled": false,
         "FilterType": 0,
         "Gain": 1.0,
-        "CutoffFrequency": 400.0,
-        "QFactor": 0.9,
+        "CutoffFrequency": 90.73069391986397,
+        "QFactor": 1.0,
         "KeyTracking": 1.0,
         "LfoSelection": 0,
         "LfoAmount": 0.0,
@@ -50,9 +50,9 @@
         "EnvelopeAmount": 0.0
     },
     "AmpSettings": {
-        "AttackDuration": 0.1,
-        "DecayDuration": 0.1,
-        "SustainValue": 1.0,
+        "AttackDuration": 0.009999999776482582,
+        "DecayDuration": 0.15093116462230686,
+        "SustainValue": 0.0,
         "ReleaseDuration": 0.10124576091766358
     },
     "Env1Settings": {
@@ -68,12 +68,16 @@
         "ReleaseDuration": 0.2
     },
     "DistortSettings": {
-        "Enabled": false
+        "Enabled": true,
+        "InputGain": 1.5220556855201722,
+        "Drive": 8.0,
+        "Mix": 1.0,
+        "OutputGain": 0.9379153728485108
     },
     "DelaySettings": {
-        "Enabled": false,
-        "DelayTime": 0.2,
-        "Feedback": 0.6,
+        "Enabled": true,
+        "DelayTime": 0.11586441844701769,
+        "Feedback": 0.5817171335220337,
         "Mix": 0.5
     },
     "ReverbSettings": {

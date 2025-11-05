@@ -17,7 +17,7 @@ namespace Runtime.Synth.Presenters
 		private void OnValueChanged(float knobValue)
 		{
 			double vibrato = KnobToVibrato(knobValue);
-			InvokeValueChanged(vibrato);
+			RaiseValueChanged(vibrato);
 			UpdateKnobText(vibrato);
 		}
 

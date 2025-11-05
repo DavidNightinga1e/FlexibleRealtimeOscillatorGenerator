@@ -17,7 +17,7 @@ namespace Runtime.Synth.Presenters
 
 		private void OnValueChanged(int obj)
 		{
-			InvokeValueChanged((EnvelopeSelection)obj);
+			RaiseValueChanged((EnvelopeSelection)obj);
 		}
 
 		public override void SetValueWithoutNotify(EnvelopeSelection value)

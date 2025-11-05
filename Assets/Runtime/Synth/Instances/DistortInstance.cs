@@ -6,7 +6,7 @@ namespace Runtime.Synth
 	{
 		private readonly int _sampleRate;
 		private readonly DistortSettings _settings;
-		
+
 		public DistortInstance
 		(
 			int sampleRate,
@@ -22,9 +22,16 @@ namespace Runtime.Synth
 			if (!_settings.Enabled)
 				return sample;
 
-			double gain = 2;
-			sample = Math.Tanh(sample * gain);
-			return sample;
+			sample *= _settings.InputGain;
+
+			double wetMix = _settings.Mix;
+			double dryMix = 1 - wetMix;
+
+			double distorted = (float)(2.0 / Math.PI * Math.Atan(sample * _settings.Drive));
+
+			double output = distorted * wetMix + sample * dryMix;
+			
+			return output * _settings.OutputGain;
 		}
 	}
 }

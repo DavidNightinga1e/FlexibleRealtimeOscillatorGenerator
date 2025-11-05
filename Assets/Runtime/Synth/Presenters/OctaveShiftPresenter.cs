@@ -14,7 +14,7 @@ namespace Runtime.Synth.Presenters
 
 		private void OnValueChanged(float arg0)
 		{
-			InvokeValueChanged((int)arg0);
+			RaiseValueChanged((int)arg0);
 		}
 
 		public override void SetValueWithoutNotify(int value)
