@@ -205,6 +205,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71520319556d4626b5266f490d878b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Runtime.Synth.Views.LfoSettingsView
+--- !u!114 &321223932 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4416440738807577445, guid: 9b2046c225f278441ac5882d383b4452, type: 3}
+  m_PrefabInstance: {fileID: 1214565558041216502}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ab90685cfc6416aa1f50d64ae3bc3ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Runtime.Common.Keyboard
 --- !u!1 &406958964
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +227,6 @@ GameObject:
   - component: {fileID: 406958968}
   - component: {fileID: 406958967}
   - component: {fileID: 406958966}
-  - component: {fileID: 406958965}
   m_Layer: 0
   m_Name: Synthesizer
   m_TagString: Untagged
@@ -224,22 +234,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &406958965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 406958964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ab90685cfc6416aa1f50d64ae3bc3ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Runtime.Common.Keyboard
-  firstOctaveView: {fileID: 1214565558041216504}
-  secondOctaveView: {fileID: 1214565558041216503}
-  baseNote: 36
-  SelectedOctave: 2
 --- !u!114 &406958966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,7 +252,7 @@ MonoBehaviour:
   _waveformRendererHeight: 184
   _frequencyPlotRenderer: {fileID: 599401012}
   timeText: {fileID: 1282560887}
-  keyboard: {fileID: 406958965}
+  keyboard: {fileID: 321223932}
   _ampSettingsView: {fileID: 6852830}
   _env1SettingsView: {fileID: 1659263428}
   _env2SettingsView: {fileID: 1316370769}
@@ -1974,28 +1968,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b2046c225f278441ac5882d383b4452, type: 3}
---- !u!114 &1214565558041216503 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4200464490729717870, guid: 9b2046c225f278441ac5882d383b4452, type: 3}
-  m_PrefabInstance: {fileID: 1214565558041216502}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d80f6f43084c9bb5f6da30e9df9423, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Runtime.UI.Keyboard.OctaveView
---- !u!114 &1214565558041216504 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5969180716143845039, guid: 9b2046c225f278441ac5882d383b4452, type: 3}
-  m_PrefabInstance: {fileID: 1214565558041216502}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d80f6f43084c9bb5f6da30e9df9423, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Runtime.UI.Keyboard.OctaveView
 --- !u!114 &2574311704664854220 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7694652390025573661, guid: 9b2046c225f278441ac5882d383b4452, type: 3}

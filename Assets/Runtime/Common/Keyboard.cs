@@ -1,22 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Runtime.UI.Keyboard;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
 
 namespace Runtime.Common
 {
 	public class Keyboard : MonoBehaviour
 	{
+		[SerializeField] private TextMeshProUGUI octaveText;
+		[SerializeField] private Button upOctaveButton;
+		[SerializeField] private Button downOctaveButton;
 		[SerializeField] private OctaveView firstOctaveView;
 		[SerializeField] private OctaveView secondOctaveView;
 
 		public event Action<Note> NoteDownEvent;
 		public event Action<Note> NoteUpEvent;
+		
+		private const int DefaultSelectedOctave = 3;
 
-		public Note baseNote = Note.C3;
-		public int SelectedOctave = 2;
+		private Note _baseNote;
+		private int _selectedOctave = DefaultSelectedOctave;
 
-		private HashSet<Note> _heldNotes = new();
+		private readonly HashSet<Note> _heldNotes = new();
 
 		private void Awake()
 		{
@@ -24,29 +33,35 @@ namespace Runtime.Common
 			secondOctaveView.NoteDownRequestEvent += OnSecondOctaveNoteDownRequest;
 			firstOctaveView.NoteUpRequestEvent += OnFirstOctaveNoteUpRequest;
 			secondOctaveView.NoteUpRequestEvent += OnSecondOctaveNoteUpRequest;
+			
+			upOctaveButton.onClick.AddListener(() => OffsetSelectedOctave(+1));
+			downOctaveButton.onClick.AddListener(() => OffsetSelectedOctave(-1));
+
+			_baseNote = NoteUtilities.LocalToNote(_selectedOctave, LocalNote.C);
+			octaveText.text = _selectedOctave.ToString();
 		}
 
 		private void OnFirstOctaveNoteDownRequest(LocalNote obj)
 		{
-			Note note = NoteUtilities.LocalToNote(SelectedOctave, obj);
+			Note note = NoteUtilities.LocalToNote(_selectedOctave, obj);
 			RequestNoteDown(note);
 		}
 
 		private void OnFirstOctaveNoteUpRequest(LocalNote obj)
 		{
-			Note note = NoteUtilities.LocalToNote(SelectedOctave, obj);
+			Note note = NoteUtilities.LocalToNote(_selectedOctave, obj);
 			RequestNoteUp(note);
 		}
 
 		private void OnSecondOctaveNoteDownRequest(LocalNote obj)
 		{
-			Note note = NoteUtilities.LocalToNote(SelectedOctave + 1, obj);
+			Note note = NoteUtilities.LocalToNote(_selectedOctave + 1, obj);
 			RequestNoteDown(note);
 		}
 
 		private void OnSecondOctaveNoteUpRequest(LocalNote obj)
 		{
-			Note note = NoteUtilities.LocalToNote(SelectedOctave + 1, obj);
+			Note note = NoteUtilities.LocalToNote(_selectedOctave + 1, obj);
 			RequestNoteUp(note);
 		}
 
@@ -56,7 +71,6 @@ namespace Runtime.Common
 				return;
 			
 			SetNoteUp(obj);
-			RaiseNoteUp(obj);
 		}
 
 		private void RequestNoteDown(Note obj)
@@ -65,7 +79,6 @@ namespace Runtime.Common
 				return;
 
 			SetNoteDown(obj);
-			RaiseNoteDown(obj);
 		}
 
 		private void SetNoteUp(Note obj)
@@ -74,6 +87,8 @@ namespace Runtime.Common
 
 			OctaveView octaveView = SelectOctaveViewByNote(obj);
 			octaveView.SetNoteUp(NoteUtilities.NoteToLocalNote(obj));
+			
+			RaiseNoteUp(obj);
 		}
 
 		private void SetNoteDown(Note obj)
@@ -82,12 +97,14 @@ namespace Runtime.Common
 
 			OctaveView octaveView = SelectOctaveViewByNote(obj);
 			octaveView.SetNoteDown(NoteUtilities.NoteToLocalNote(obj));
+			
+			RaiseNoteDown(obj);
 		}
 
 		private OctaveView SelectOctaveViewByNote(Note note)
 		{
 			int octave = NoteUtilities.GetOctave(note);
-			int octaveFromBase = octave - SelectedOctave;
+			int octaveFromBase = octave - _selectedOctave;
 
 			return octaveFromBase switch
 			{
@@ -96,14 +113,14 @@ namespace Runtime.Common
 				_ => throw new ArgumentOutOfRangeException
 				(
 					$"Note {note} was not in range of currently selected octaves " +
-					$"{SelectedOctave}, {SelectedOctave + 1}"
+					$"{_selectedOctave}, {_selectedOctave + 1}"
 				)
 			};
 		}
 
 		private Note TransposeFromBaseNote(Note note, int additionalOffset = 0)
 		{
-			return baseNote + (int)note + additionalOffset;
+			return _baseNote + (int)note + additionalOffset;
 		}
 
 		private void Update()
@@ -129,9 +146,14 @@ namespace Runtime.Common
 
 		private void OffsetSelectedOctave(int direction)
 		{
-			SelectedOctave += direction;
-			SelectedOctave = Math.Clamp(SelectedOctave, 0, 5); // todo consts
-			baseNote = NoteUtilities.LocalToNote(SelectedOctave, LocalNote.C);
+			foreach (Note note in _heldNotes.ToList()) 
+				SetNoteUp(note);
+			
+			_selectedOctave += direction;
+			_selectedOctave = Math.Clamp(_selectedOctave, 0, 5); // todo consts
+			_baseNote = NoteUtilities.LocalToNote(_selectedOctave, LocalNote.C);
+			
+			octaveText.text = _selectedOctave.ToString();
 		}
 
 		private void OnDestroy()

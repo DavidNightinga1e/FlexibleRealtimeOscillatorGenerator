@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 namespace Runtime.UI.Keyboard
 {
-	public class KeyView : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IPointerEnterHandler
+	// todo хендлинг инпутов мышкой
+	public class KeyView : MonoBehaviour
 	{
 		[SerializeField] private Image image;
 		[SerializeField] private Sprite noteOn;
@@ -25,16 +26,6 @@ namespace Runtime.UI.Keyboard
 			image.sprite = noteOff;
 		}
 
-		public void OnPointerDown(PointerEventData eventData)
-		{
-			RaiseKeyViewPointerDown();
-		}
-
-		public void OnPointerUp(PointerEventData eventData)
-		{
-			RaiseKeyViewPointerUp();
-		}
-
 		private void RaiseKeyViewPointerDown() => KeyViewPointerDownEvent?.Invoke(this);
 
 		private void RaiseKeyViewPointerUp() => KeyViewPointerUpEvent?.Invoke(this);
@@ -43,22 +34,6 @@ namespace Runtime.UI.Keyboard
 		private void SerializeImage()
 		{
 			image = GetComponent<Image>();
-		}
-
-		public void OnPointerExit(PointerEventData eventData)
-		{
-			if (Input.GetMouseButton(0))
-			{
-				RaiseKeyViewPointerUp();
-			}
-		}
-
-		public void OnPointerEnter(PointerEventData eventData)
-		{
-			if (Input.GetMouseButton(0))
-			{
-				RaiseKeyViewPointerDown();
-			}
 		}
 	}
 } 

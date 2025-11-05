@@ -31,9 +31,6 @@ namespace Runtime.Common
 			{ KeyCode.T, 19 }, // G
 			{ KeyCode.Y, 21 }, // A
 			{ KeyCode.U, 23 }, // B
-			{ KeyCode.I, 24 }, // C (еще октавой выше)
-			{ KeyCode.O, 26 }, // D
-			{ KeyCode.P, 28 }, // E
 
 			// Второй ряд (верхний) - черные клавиши: 2 3 5 6 7 9 0
 			{ KeyCode.Alpha2, 13 }, // C#
@@ -41,8 +38,6 @@ namespace Runtime.Common
 			{ KeyCode.Alpha5, 18 }, // F#
 			{ KeyCode.Alpha6, 20 }, // G#
 			{ KeyCode.Alpha7, 22 }, // A#
-			{ KeyCode.Alpha9, 25 }, // C# (октавой выше)
-			{ KeyCode.Alpha0, 27 }, // D#
 		};
 
 		public static IEnumerable<KeyValuePair<KeyCode, int>> GetKeyboardNoteOffsetPairs() => KeyboardNoteOffset;

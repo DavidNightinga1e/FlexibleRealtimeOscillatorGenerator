@@ -4199,6 +4199,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6940625999741249568}
+  - component: {fileID: 8028115973972835169}
   m_Layer: 5
   m_Name: Keyboard
   m_TagString: Untagged
@@ -4231,6 +4232,23 @@ RectTransform:
   m_AnchoredPosition: {x: -480.00003, y: -400.77386}
   m_SizeDelta: {x: 960, y: 278.4522}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8028115973972835169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8755658230782790855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ab90685cfc6416aa1f50d64ae3bc3ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Runtime.Common.Keyboard
+  octaveText: {fileID: 4136814741670210613}
+  upOctaveButton: {fileID: 958553480452389534}
+  downOctaveButton: {fileID: 2961105644529365292}
+  firstOctaveView: {fileID: 68974281402867371}
+  secondOctaveView: {fileID: 7523489339392393322}
 --- !u!1 &8889029985926005337
 GameObject:
   m_ObjectHideFlags: 0
@@ -4469,6 +4487,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3225714715834547229, guid: 56c22ef55aab24e46811670b666421be, type: 3}
   m_PrefabInstance: {fileID: 476512550104751249}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7523489339392393322 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7995054901068455163, guid: 56c22ef55aab24e46811670b666421be, type: 3}
+  m_PrefabInstance: {fileID: 476512550104751249}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d80f6f43084c9bb5f6da30e9df9423, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Runtime.UI.Keyboard.OctaveView
 --- !u!1001 &7796526597170044316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4676,6 +4705,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56c22ef55aab24e46811670b666421be, type: 3}
+--- !u!114 &68974281402867371 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7995054901068455163, guid: 56c22ef55aab24e46811670b666421be, type: 3}
+  m_PrefabInstance: {fileID: 7926669239162339920}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d80f6f43084c9bb5f6da30e9df9423, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Runtime.UI.Keyboard.OctaveView
 --- !u!224 &4811293409985232461 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3225714715834547229, guid: 56c22ef55aab24e46811670b666421be, type: 3}
