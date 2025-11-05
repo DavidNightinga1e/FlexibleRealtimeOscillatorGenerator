@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Runtime.UI.Keyboard;
+using Runtime.Common;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 
-namespace Runtime.Common
+namespace Runtime.UI.Keyboard
 {
 	public class Keyboard : MonoBehaviour
 	{

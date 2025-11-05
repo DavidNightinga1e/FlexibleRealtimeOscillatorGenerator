@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Runtime.Common
+namespace Runtime.UI.Keyboard
 {
 	public static class KeyboardInputUtility
 	{

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Runtime.Synth.Views
+namespace Runtime.Synth.Views.Presets
 {
 	public class PresetInstanceView : MonoBehaviour
 	{

@@ -5,7 +5,7 @@ using Runtime.Synth.Presets;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Runtime.Synth.Views
+namespace Runtime.Synth.Views.Presets
 {
 	public class PresetsView : MonoBehaviour
 	{
