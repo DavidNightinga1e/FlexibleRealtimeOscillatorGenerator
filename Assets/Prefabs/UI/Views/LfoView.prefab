@@ -30,7 +30,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7918603238917939079}
-  - {fileID: 2411532399761376563}
+  - {fileID: 1546252930062690767}
   - {fileID: 3603160509342172796}
   - {fileID: 683187010543427255}
   m_Father: {fileID: 0}
@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Runtime.Synth.Views.LfoSettingsView
   toggle: {fileID: 1533860549475915520}
-  waveformPresenter: {fileID: 1536090767167169916}
+  waveformPresenter: {fileID: 1028887778201997247}
   gainPresenter: {fileID: 5002117928409115391}
   frequencyPresenter: {fileID: 4234904098116715355}
 --- !u!1001 &3679890205381392222
@@ -126,11 +126,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 76956749621113122, guid: 8972cb2c82fca0b489adc26f189f03a3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 59.999996
+      value: -0.0000038146973
       objectReference: {fileID: 0}
     - target: {fileID: 76956749621113122, guid: 8972cb2c82fca0b489adc26f189f03a3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -246
+      value: -320.26056
       objectReference: {fileID: 0}
     - target: {fileID: 76956749621113122, guid: 8972cb2c82fca0b489adc26f189f03a3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -312,7 +312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6010081890242376699, guid: 4e8ac40948b920244a6dd3dedc7c98d2, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6010081890242376699, guid: 4e8ac40948b920244a6dd3dedc7c98d2, type: 3}
       propertyPath: m_AnchorMin.x
@@ -320,7 +320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6010081890242376699, guid: 4e8ac40948b920244a6dd3dedc7c98d2, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6010081890242376699, guid: 4e8ac40948b920244a6dd3dedc7c98d2, type: 3}
       propertyPath: m_SizeDelta.x
@@ -360,11 +360,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6010081890242376699, guid: 4e8ac40948b920244a6dd3dedc7c98d2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -60
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6010081890242376699, guid: 4e8ac40948b920244a6dd3dedc7c98d2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -93
+      value: -200.26057
       objectReference: {fileID: 0}
     - target: {fileID: 6010081890242376699, guid: 4e8ac40948b920244a6dd3dedc7c98d2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -399,7 +399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e423fde08a4f2281e911c189756b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Runtime.Synth.Presenters.LfoFrequencyPresenter
---- !u!1001 &8468716363842031078
+--- !u!1001 &9186883413792988933
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -407,87 +407,87 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2538375332036499408}
     m_Modifications:
-    - target: {fileID: 61839857389459049, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 1016867201824922144, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_Name
-      value: WaveformPresenter Variant
+      value: LfoWaveformPresenter
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_AnchorMin.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 202
+      value: 162
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 150.08
+      value: 124
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -110.04
+      value: -97
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
+    - target: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
@@ -495,11 +495,11 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
---- !u!114 &1536090767167169916 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
+--- !u!114 &1028887778201997247 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6978229508068747418, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
-  m_PrefabInstance: {fileID: 8468716363842031078}
+  m_CorrespondingSourceObject: {fileID: 8158563408975204538, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
+  m_PrefabInstance: {fileID: 9186883413792988933}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -507,8 +507,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c9bc2e36ed84fb09ad1bce3f50735c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Runtime.Synth.Presenters.WaveformPresenter
---- !u!224 &2411532399761376563 stripped
+--- !u!224 &1546252930062690767 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6120839778126055637, guid: ef934a0b9a932074fa56e503633a1da1, type: 3}
-  m_PrefabInstance: {fileID: 8468716363842031078}
+  m_CorrespondingSourceObject: {fileID: 7641263944874866378, guid: 868ab9baf720d864ba8d4c60573697c7, type: 3}
+  m_PrefabInstance: {fileID: 9186883413792988933}
   m_PrefabAsset: {fileID: 0}
