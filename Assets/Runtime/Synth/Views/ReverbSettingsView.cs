@@ -8,8 +8,9 @@ namespace Runtime.Synth.Views
 	public class ReverbSettingsView : MonoBehaviour
 	{
 		[SerializeField] private Toggle toggle;
-		[SerializeField] private DelayDurationPresenter decayDurationPresenter;
+		[SerializeField] private GainPresenter roomPresenter;
 		[SerializeField] private GainPresenter mixPresenter;
+		[SerializeField] private GainPresenter dampPresenter;
 
 		private ReverbSettings _settings;
 
@@ -18,26 +19,34 @@ namespace Runtime.Synth.Views
 			_settings = settings;
 
 			toggle.SetValueWithoutNotify(settings.Enabled);
-			decayDurationPresenter.SetValueWithoutNotify(settings.DecayTime);
 			mixPresenter.SetValueWithoutNotify(settings.Mix);
+			roomPresenter.SetValueWithoutNotify(settings.RoomSize);
+			dampPresenter.SetValueWithoutNotify(settings.Damp);
 		}
 
 		private void Awake()
 		{
 			toggle.ValueChanged += ToggleOnValueChanged;
-			decayDurationPresenter.ValueChanged += OnDecayDurationValueChanged;
 			mixPresenter.ValueChanged += OnMixValueChanged;
+			roomPresenter.ValueChanged += OnRoomValueChanged;
+			dampPresenter.ValueChanged += OnDampValueChanged;
+		}
+
+		private void OnDampValueChanged(double obj)
+		{
+			_settings.Damp = obj;
+			_settings.InvokeChanged();
+		}
+
+		private void OnRoomValueChanged(double obj)
+		{
+			_settings.RoomSize = obj;
+			_settings.InvokeChanged();
 		}
 
 		private void OnMixValueChanged(double obj)
 		{
 			_settings.Mix = obj;
-			_settings.InvokeChanged();
-		}
-
-		private void OnDecayDurationValueChanged(double obj)
-		{
-			_settings.DecayTime = obj;
 			_settings.InvokeChanged();
 		}
 
@@ -50,8 +59,9 @@ namespace Runtime.Synth.Views
 		private void OnDestroy()
 		{
 			toggle.ValueChanged -= ToggleOnValueChanged;
-			decayDurationPresenter.ValueChanged -= OnDecayDurationValueChanged;
 			mixPresenter.ValueChanged -= OnMixValueChanged;
+			roomPresenter.ValueChanged -= OnRoomValueChanged;
+			dampPresenter.ValueChanged -= OnDampValueChanged;
 		}
 	}
 }

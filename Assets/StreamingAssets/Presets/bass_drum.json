@@ -82,7 +82,8 @@
     },
     "ReverbSettings": {
         "Enabled": false,
-        "DecayTime": 0.2,
-        "Mix": 0.5
+        "RoomSize": 0.0,
+        "Mix": 0.5,
+        "Damp": 0.0
     }
 }

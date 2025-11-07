@@ -59,7 +59,7 @@
         "AttackDuration": 0.1,
         "DecayDuration": 0.1,
         "SustainValue": 0.8953324556350708,
-        "ReleaseDuration": 0.49366334080696108
+        "ReleaseDuration": 0.4936633408069611
     },
     "Env2Settings": {
         "AttackDuration": 0.1,
@@ -68,7 +68,11 @@
         "ReleaseDuration": 0.2
     },
     "DistortSettings": {
-        "Enabled": false
+        "Enabled": true,
+        "InputGain": 2.1893830001354219,
+        "Drive": 1.0,
+        "Mix": 0.0,
+        "OutputGain": 0.9982151627540588
     },
     "DelaySettings": {
         "Enabled": false,
@@ -77,8 +81,9 @@
         "Mix": 0.5
     },
     "ReverbSettings": {
-        "Enabled": false,
-        "DecayTime": 0.2,
-        "Mix": 0.5
+        "Enabled": true,
+        "RoomSize": 0.8135912418365479,
+        "Mix": 0.6957194805145264,
+        "Damp": 0.715308427810669
     }
 }

@@ -4,14 +4,18 @@ namespace Runtime.Synth
 {
 	public class ReverbInstance
 	{
-		private int _writePosition;
-		private int _bufferSize;
-		private double _feedback;
-		
-		private readonly double[] _delayBuffer;
+		private const int CombsCount = 8;
+		private const int AllPassCount = 4;
+
+		private CombFilter[] _combFilters = new CombFilter[CombsCount];
+		private AllPassFilter[] _allPassFilters = new AllPassFilter[AllPassCount];
 		
 		private readonly ReverbSettings _settings;
 		private readonly int _sampleRate;
+		
+		// tuning for 44100
+		private static readonly int[] CombTunings = { 1116, 1188, 1277, 1356, 1422, 1491, 1557, 1617 };
+		private static readonly int[] AllPassTunings = { 556, 441, 341, 225 };
 
 		public ReverbInstance
 		(
@@ -21,8 +25,36 @@ namespace Runtime.Synth
 		{
 			_sampleRate = sampleRate;
 			_settings = reverbSettings;
-			
-			_delayBuffer = new double[(int)(_sampleRate * ReverbSettings.MaxDecayTime)];
+
+			float scale = (float)_sampleRate / 44100;
+
+			for (int i = 0; i < _combFilters.Length; i++)
+			{
+				int delay = (int)(CombTunings[i] * scale);
+				_combFilters[i] = new CombFilter(delay);
+			}
+
+			for (int i = 0; i < _allPassFilters.Length; i++)
+			{
+				int delay = (int)(AllPassTunings[i] * scale);
+				_allPassFilters[i] = new AllPassFilter(delay);
+			}
+		}
+
+		private void OnRoomSizeChanged(double roomSize)
+		{
+			double combFeedback = 0.7 + roomSize * 0.28;
+			double allPassFeedback = 0.3 + roomSize * 0.4;
+
+			foreach (CombFilter t in _combFilters) t.SetFeedback(combFeedback);
+			foreach (AllPassFilter t in _allPassFilters) t.SetFeedback(allPassFeedback);
+		}
+
+		private void OnDampChanged(double damp)
+		{
+			damp *= 0.6;
+
+			foreach (CombFilter t in _combFilters) t.SetDamping(damp);
 		}
 
 		public double ProcessSample(double sample)
@@ -30,27 +62,19 @@ namespace Runtime.Synth
 			if (!_settings.Enabled)
 				return sample;
 			
-			OnSettingsUpdate();
+			OnRoomSizeChanged(_settings.RoomSize);
+			OnDampChanged(_settings.Damp);
 
-			// Read from delay buffer (with interpolation for smoother sound)
-			int readPosition = (_writePosition - _bufferSize / 2 + _bufferSize) % _bufferSize;
-			double delayed = _delayBuffer[readPosition];
+			var input  = sample * 0.015; // wtf
 
-			// Write input + feedback to delay buffer
-			_delayBuffer[_writePosition] = sample + delayed * _feedback;
+			double output = 0;
 
-			// Increment and wrap write position
-			_writePosition = (_writePosition + 1) % _bufferSize;
+			foreach (CombFilter t in _combFilters) output += t.Process(input);
+			foreach (AllPassFilter t in _allPassFilters) output = t.Process(output);
 
-			// Mix dry and wet signals
-			return sample * (1 - _settings.Mix) + delayed * _settings.Mix;
-		}
-
-		// Move that to SettingsChanged event callback when IDisposable is implemented
-		private void OnSettingsUpdate()
-		{
-			_bufferSize = (int)(_settings.DecayTime * _sampleRate);
-			_feedback = Math.Pow(0.001, 1.0 / (_settings.DecayTime * _sampleRate / _bufferSize));
+			double dry = 1 - _settings.Mix;
+			double wet = _settings.Mix;
+			return sample * dry + output * wet;
 		}
 	}
 }
