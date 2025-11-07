@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +22,7 @@ namespace Runtime.Synth.Views.Presets
 			get => _fileName;
 			set
 			{
-				text.text = value;
+				text.text = Path.GetFileNameWithoutExtension(value);
 				_fileName = value;
 			}
 		}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Runtime.Synth.Presets;
+using Runtime.UI.Modals;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +31,32 @@ namespace Runtime.Synth.Views.Presets
 			prevPresetButton.onClick.AddListener(PrevPreset);
 			duplicatePresetButton.onClick.AddListener(DuplicateSelectedPreset);
 			savePresetButton.onClick.AddListener(SavePreset);
+			renamePresetButton.onClick.AddListener(RenamePreset);
+		}
+
+		private void RenamePreset()
+		{
+			string selectedPresetName = _presetViews[_selectedIndex].FileName;
+			string presetNameWithoutExtension = Path.GetFileNameWithoutExtension(selectedPresetName);
+			ApplicationContext.Modals.ShowStringModal(presetNameWithoutExtension, response =>
+			{
+				if (response.ButtonPressed == ModalButton.Cancel)
+				{
+					return;
+				}
+				
+				string pathToPresetFile = PresetUtilities.GetPathToPresetFile(selectedPresetName);
+				string newPathToPresetFile = PresetUtilities.GetPathToPresetFile(response.Value + ".json");
+				try
+				{
+					File.Move(pathToPresetFile, newPathToPresetFile);
+				}
+				catch (Exception e)
+				{
+					Debug.LogError(e.ToString());
+				}
+				PreparePresets();
+			});
 		}
 
 		private void SavePreset()
