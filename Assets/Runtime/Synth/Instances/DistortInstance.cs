@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using Runtime.Common;
+using Runtime.Synth.Distort;
 
 namespace Runtime.Synth
 {
@@ -6,6 +9,15 @@ namespace Runtime.Synth
 	{
 		private readonly int _sampleRate;
 		private readonly DistortSettings _settings;
+
+		private readonly Dictionary<DistortType, IDistortLogic> _logics = new()
+		{
+			{ DistortType.SoftClip, new SoftClipDistort() },
+			{ DistortType.HardClip, new HardClipDistort() },
+			{ DistortType.WaveShape, new WaveDistort() },
+			{ DistortType.BitCrush, new BitCrushDistort() },
+			{ DistortType.Tube, new TubeDistort() }
+		};
 
 		public DistortInstance
 		(
@@ -27,10 +39,10 @@ namespace Runtime.Synth
 			double wetMix = _settings.Mix;
 			double dryMix = 1 - wetMix;
 
-			double distorted = (float)(2.0 / Math.PI * Math.Atan(sample * _settings.Drive));
+			double distorted = _logics[_settings.DistortType].Process(sample, _settings.Drive);
 
 			double output = distorted * wetMix + sample * dryMix;
-			
+
 			return output * _settings.OutputGain;
 		}
 	}

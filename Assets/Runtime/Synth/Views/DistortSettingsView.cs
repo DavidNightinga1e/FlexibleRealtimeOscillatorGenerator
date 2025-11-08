@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Runtime.Common;
 using Runtime.Synth.Presenters;
 using Runtime.UI;
 using UnityEngine;
@@ -12,6 +12,7 @@ namespace Runtime.Synth.Views
 		[SerializeField] private GainPresenter outputGainPresenter;
 		[SerializeField] private GainPresenter drivePresenter;
 		[SerializeField] private GainPresenter mixPresenter;
+		[SerializeField] private DistortTypePresenter distortTypePresenter;
 
 		private DistortSettings _settings;
 		
@@ -24,6 +25,7 @@ namespace Runtime.Synth.Views
 			outputGainPresenter.SetValueWithoutNotify(settings.OutputGain);
 			drivePresenter.SetValueWithoutNotify(settings.Drive);
 			mixPresenter.SetValueWithoutNotify(settings.Mix);
+			distortTypePresenter.SetValueWithoutNotify(settings.DistortType);
 		}
 
 		private void Awake()
@@ -40,6 +42,13 @@ namespace Runtime.Synth.Views
 			outputGainPresenter.ValueChanged += OnOutputGainChanged;
 			drivePresenter.ValueChanged += OnDriveValueChanged;
 			mixPresenter.ValueChanged += OnMixValueChanged;
+			distortTypePresenter.ValueChanged += OnDistortValueChanged;
+		}
+
+		private void OnDistortValueChanged(DistortType obj)
+		{
+			_settings.DistortType = obj;
+			_settings.InvokeChanged();
 		}
 
 		private void OnMixValueChanged(double obj)
@@ -79,6 +88,7 @@ namespace Runtime.Synth.Views
 			outputGainPresenter.ValueChanged -= OnOutputGainChanged;
 			drivePresenter.ValueChanged -= OnDriveValueChanged;
 			mixPresenter.ValueChanged -= OnMixValueChanged;
+			distortTypePresenter.ValueChanged -= OnDistortValueChanged;
 		}
 	}
 }

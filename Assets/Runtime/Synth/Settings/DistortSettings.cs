@@ -1,4 +1,5 @@
 ﻿using System;
+using Runtime.Common;
 using UnityEngine;
 
 namespace Runtime.Synth
@@ -11,6 +12,7 @@ namespace Runtime.Synth
 		public double Drive;
 		public double Mix;
 		public double OutputGain;
+		public DistortType DistortType;
 
 		public const double InputGainMinValue = 0.5;
 		public const double InputGainMaxValue = 4.0;
@@ -26,6 +28,7 @@ namespace Runtime.Synth
 			OutputGain = 1.0,
 			Drive = 2.0,
 			Mix = 1,
+			DistortType = DistortType.SoftClip
 		};
 	}
 }
