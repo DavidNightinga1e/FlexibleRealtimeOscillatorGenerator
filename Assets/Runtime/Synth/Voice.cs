@@ -4,7 +4,7 @@ namespace Runtime.Synth
 {
 	public class Voice : INoteHandler, ISampleProvider
 	{
-		private const double VoiceGain = 0.707;
+		private const double VoiceGain = 1;
 
 		private readonly int _sampleRate;
 		private readonly double _baseFrequency;
