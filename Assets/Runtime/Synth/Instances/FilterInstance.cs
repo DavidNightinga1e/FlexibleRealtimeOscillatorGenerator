@@ -7,7 +7,7 @@ namespace Runtime.Synth
 	public class FilterInstance
 	{
 		private readonly int _sampleRate;
-
+		private readonly double _baseFrequency;
 		private readonly FilterSettings _settings;
 
 		private readonly EnvelopeInstance _env1;
@@ -23,6 +23,7 @@ namespace Runtime.Synth
 		public FilterInstance
 		(
 			int sampleRate,
+			double baseFrequency,
 			FilterSettings filterSettings,
 			EnvelopeInstance env1,
 			EnvelopeInstance env2,
@@ -31,6 +32,7 @@ namespace Runtime.Synth
 		)
 		{
 			_sampleRate = sampleRate;
+			_baseFrequency = baseFrequency;
 			_settings = filterSettings;
 			_env1 = env1;
 			_env2 = env2;
@@ -57,7 +59,7 @@ namespace Runtime.Synth
 			_y2 = _y1;
 			_y1 = output;
 
-			return output;
+			return _settings.Gain * output;
 		}
 
 		private void ModulateCutoff()
@@ -67,15 +69,14 @@ namespace Runtime.Synth
 
 			double lfoValue = targetLfo?.Sample ?? 0.0;
 			double envValue = targetEnv?.Sample ?? 0.0;
-			//double keyValue = _settings.KeyTracking;
 
 			double modulatedCutoff = _settings.CutoffFrequency;
 
 			modulatedCutoff *= Math.Pow(2.0, lfoValue * _settings.LfoAmount * 4.0);
 
 			modulatedCutoff += envValue * _settings.EnvelopeAmount * 8000.0;
-
-			//modulatedCutoff *= Math.Pow(2.0, keyValue * keyTracking * 2.0);
+			
+			modulatedCutoff += _settings.KeyTracking * _baseFrequency;
 
 			_cutoffFrequency = Math.Clamp(modulatedCutoff, 20.0, _sampleRate * 0.45);
 

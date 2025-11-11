@@ -68,7 +68,7 @@ namespace Runtime.Synth
 			_lfo1 = new LfoInstance(_sampleRate, _lfo1Settings);
 			_lfo2 = new LfoInstance(_sampleRate, _lfo2Settings);
 
-			_filter = new FilterInstance(_sampleRate, _filterSettings, _env1, _env2, _lfo1, _lfo2);
+			_filter = new FilterInstance(_sampleRate, _baseFrequency , _filterSettings, _env1, _env2, _lfo1, _lfo2);
 
 			_osc1 = new OscillatorInstance(_sampleRate, _baseFrequency, _osc1Settings, _lfo1, _lfo2, _env1, _env2);
 			_osc2 = new OscillatorInstance(_sampleRate, _baseFrequency, _osc2Settings, _lfo1, _lfo2, _env1, _env2);
