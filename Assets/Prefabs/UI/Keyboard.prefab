@@ -4199,7 +4199,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6940625999741249568}
-  - component: {fileID: 8028115973972835169}
+  - component: {fileID: 619201693118565365}
   m_Layer: 5
   m_Name: Keyboard
   m_TagString: Untagged
@@ -4232,7 +4232,7 @@ RectTransform:
   m_AnchoredPosition: {x: -480.00003, y: -400.77386}
   m_SizeDelta: {x: 960, y: 278.4522}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8028115973972835169
+--- !u!114 &619201693118565365
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4241,9 +4241,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8755658230782790855}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ab90685cfc6416aa1f50d64ae3bc3ac, type: 3}
+  m_Script: {fileID: 11500000, guid: 24441fa26eada1c4cbaaab552ab10662, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Runtime.Common.Keyboard
+  m_EditorClassIdentifier: Assembly-CSharp::Runtime.UI.Keyboard.Keyboard
   octaveText: {fileID: 4136814741670210613}
   upOctaveButton: {fileID: 958553480452389534}
   downOctaveButton: {fileID: 2961105644529365292}

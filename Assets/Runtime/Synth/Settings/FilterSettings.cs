@@ -23,6 +23,9 @@ namespace Runtime.Synth
 		public EnvelopeSelection EnvelopeSelection;
 		public double EnvelopeAmount;
 
+		public const double MinQ = 0;
+		public const double MaxQ = 5;
+
 		public static FilterSettings CreateDefault() => new()
 		{
 			Enabled = true,

@@ -5,7 +5,7 @@
     },
     "Osc1Settings": {
         "Enabled": true,
-        "Waveform": 0,
+        "Waveform": 3,
         "OctaveShift": 0,
         "Gain": 1.0,
         "EnvelopeSelection": 0,
@@ -26,13 +26,13 @@
         "TremoloDepth": 0.0
     },
     "Lfo1Settings": {
-        "Enabled": true,
+        "Enabled": false,
         "Waveform": 0,
         "Frequency": 1.0,
         "Gain": 1.0
     },
     "Lfo2Settings": {
-        "Enabled": true,
+        "Enabled": false,
         "Waveform": 3,
         "Frequency": 4.0,
         "Gain": 1.0
@@ -41,25 +41,25 @@
         "Enabled": true,
         "FilterType": 0,
         "Gain": 1.0,
-        "CutoffFrequency": 400.0,
-        "QFactor": 0.9,
-        "KeyTracking": 1.0,
+        "CutoffFrequency": 159.91830145798239,
+        "QFactor": 1.1330227553844453,
+        "KeyTracking": 0.9028837084770203,
         "LfoSelection": 0,
         "LfoAmount": 0.0,
-        "EnvelopeSelection": 0,
-        "EnvelopeAmount": 0.0
+        "EnvelopeSelection": 1,
+        "EnvelopeAmount": 0.3324650526046753
     },
     "AmpSettings": {
-        "AttackDuration": 0.1,
-        "DecayDuration": 0.1,
-        "SustainValue": 0.8,
-        "ReleaseDuration": 0.2
+        "AttackDuration": 0.009999999776482582,
+        "DecayDuration": 0.5342323780059815,
+        "SustainValue": 0.0,
+        "ReleaseDuration": 0.45546016097068789
     },
     "Env1Settings": {
-        "AttackDuration": 0.1,
-        "DecayDuration": 0.1,
-        "SustainValue": 0.8,
-        "ReleaseDuration": 0.2
+        "AttackDuration": 0.009999999776482582,
+        "DecayDuration": 0.21944189071655274,
+        "SustainValue": 0.0,
+        "ReleaseDuration": 0.009999999776482582
     },
     "Env2Settings": {
         "AttackDuration": 0.1,
@@ -68,7 +68,12 @@
         "ReleaseDuration": 0.2
     },
     "DistortSettings": {
-        "Enabled": false
+        "Enabled": false,
+        "InputGain": 0.0,
+        "Drive": 0.0,
+        "Mix": 0.0,
+        "OutputGain": 0.0,
+        "DistortType": 0
     },
     "DelaySettings": {
         "Enabled": false,
@@ -77,8 +82,9 @@
         "Mix": 0.5
     },
     "ReverbSettings": {
-        "Enabled": false,
-        "DecayTime": 0.2,
-        "Mix": 0.5
+        "Enabled": true,
+        "RoomSize": 0.3503256142139435,
+        "Mix": 0.5,
+        "Damp": 0.20539534091949464
     }
 }

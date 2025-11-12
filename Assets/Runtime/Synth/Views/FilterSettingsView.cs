@@ -39,6 +39,9 @@ namespace Runtime.Synth.Views
 
 		private void Awake()
 		{
+			qFactorPresenter.MinValue = FilterSettings.MinQ;
+			qFactorPresenter.MaxValue = FilterSettings.MaxQ;
+			
 			toggle.ValueChanged += ToggleValueChanged;
 			filterTypeSelectorPresenter.ValueChanged += FilterTypeSelectorValueChanged;
 			gainPresenter.ValueChanged += GainValueChanged;
