@@ -31,24 +31,39 @@ namespace Runtime.Synth
 		public event Action<double> SampleCompletedEvent; 
 		
 		private SynthesizerPreset _preset = BuiltInPresets.CreateDefault();
+		
+		private SynthesizerInstance _synthesizerInstance;
 
 		private int _sampleRate;
-
-		private readonly Voice[] _voices = new Voice[(int)(Note.C8 + 1)];
-		private DistortInstance _distortInstance;
-		private DelayInstance _delayInstance;
-		private ReverbInstance _reverbInstance;
 		
 		private readonly Stopwatch _stopwatch = new();
 
 		private void Awake()
 		{
 			_presetsView.OnPresetChanged += OnPresetChanged;
-			
+			_sampleRate = AudioSettings.outputSampleRate;
+		}
+
+		private void OnEnable()
+		{
 			keyboard.NoteDownEvent += OnNoteDown;
 			keyboard.NoteUpEvent += OnNoteUp;
-			
-			_sampleRate = AudioSettings.outputSampleRate;
+		}
+
+		private void OnNoteUp(Note obj)
+		{
+			_synthesizerInstance.OnNoteUp(obj);
+		}
+
+		private void OnNoteDown(Note obj)
+		{
+			_synthesizerInstance.OnNoteDown(obj);
+		}
+
+		private void OnDisable()
+		{
+			keyboard.NoteDownEvent -= OnNoteDown;
+			keyboard.NoteUpEvent -= OnNoteUp;
 		}
 
 		private void OnPresetChanged()
@@ -61,14 +76,8 @@ namespace Runtime.Synth
 		{
 			PrepareSettings();
 			
-			PrepareVoices();
-			PrepareEffects();			
-		}
-
-		private void OnDestroy()
-		{
-			keyboard.NoteDownEvent -= OnNoteDown;
-			keyboard.NoteUpEvent -= OnNoteUp;
+			_synthesizerInstance = new SynthesizerInstance(_sampleRate, _preset);
+			_synthesizerInstance.SampleCompletedEvent += d => SampleCompletedEvent?.Invoke(d);
 		}
 
 		private void PrepareSettings()
@@ -90,115 +99,16 @@ namespace Runtime.Synth
 			_reverbSettingsView.SetSettings(_preset.ReverbSettings);
 		}
 
-		private void OnNoteUp(Note note)
-		{
-			var i = (int)note;
-			_voices[i].NoteUp();
-		}
-
-		private void OnNoteDown(Note note)
-		{
-			var i = (int)note;
-			_voices[i].NoteDown();
-		}
-
-		private void PrepareVoices()
-		{
-			for (int i = 0; i < _voices.Length; i++)
-			{
-				_voices[i] = new Voice
-				(
-					_sampleRate,
-					NoteToFrequency.GetFrequency((Note)i),
-					_preset.Osc1Settings,
-					_preset.Osc2Settings,
-					_preset.Lfo1Settings,
-					_preset.Lfo2Settings,
-					_preset.FilterSettings,
-					_preset.AmpSettings,
-					_preset.Env1Settings,
-					_preset.Env2Settings
-				);
-			}
-		}
-
-		private void PrepareEffects()
-		{
-			_distortInstance = new DistortInstance(_sampleRate, _preset.DistortSettings);
-			_delayInstance = new DelayInstance(_sampleRate, _preset.DelaySettings);
-			_reverbInstance = new ReverbInstance(_sampleRate, _preset.ReverbSettings);
-		}
-
 		private void OnAudioFilterRead(float[] data, int channels)
 		{
-			if (_preset is null)
+			if (_synthesizerInstance is null)
 				return;
 			
 			_stopwatch.Restart();
 			
-			int dataLength = data.Length / channels;
-
-			for (int dataIndex = 0; dataIndex < dataLength; dataIndex++)
-			{
-				var output = MixVoices();
-				
-				output = ApplyEffects(output);
-				
-				RaiseSampleCompleted(output);
-
-				for (int channelIndex = 0; channelIndex < channels; channelIndex++)
-				{
-					data[dataIndex * channels + channelIndex] += (float)output;
-				}
-			}
+			_synthesizerInstance.OnAudioFilterRead(data, channels);
 			
 			_stopwatch.Stop();
-		}
-
-		private void RaiseSampleCompleted(double sample)
-		{
-			SampleCompletedEvent?.Invoke(sample);
-		}
-
-		private double ApplyEffects(double sample)
-		{
-			sample = _distortInstance.ProcessSample(sample);
-			sample = _delayInstance.ProcessSample(sample);
-			sample = _reverbInstance.ProcessSample(sample);
-			return sample;
-		}
-
-		private double MixVoices()
-		{
-			double signal = 0;
-			double envelopeSum = 0;
-
-			foreach (Voice v in _voices)
-			{
-				if (v.IsFinished)
-					continue;
-
-				v.UpdateSample();
-				signal += v.Sample;
-				envelopeSum += v.AmpEnvelopeValue;
-			}
-
-			if (envelopeSum > 1)
-				signal /= envelopeSum;
-
-			if (double.IsNaN(signal))
-			{
-				Debug.LogError($"Mixer: signal was NaN");
-				return 0;
-			}
-
-			if (Math.Abs(signal) > 1)
-			{
-				Debug.LogError($"Mixer: signal outside boundary {signal}");
-				return Math.Clamp(signal, -1, 1);
-			}
-
-			return signal;
 		}
 	}
 }
